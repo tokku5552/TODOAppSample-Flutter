@@ -9,8 +9,11 @@ class TodoItem {
 
   // define getter
   int get getId => id;
+
   String get getTitle => '$title';
+
   String get getBody => '$body';
+
   DateTime get getUpdatedAt => updatedAt;
 
   Map<String, dynamic> toMap() {
@@ -22,6 +25,14 @@ class TodoItem {
       'updatedAt': updatedAt.toUtc().toIso8601String(),
     };
   }
+
+  factory TodoItem.fromMap(Map<String, dynamic> json) => TodoItem(
+        id: json["id"],
+        title: json["title"],
+        body: json["body"],
+        createdAt: DateTime.parse(json["createdAt"]).toLocal(),
+        updatedAt: DateTime.parse(json["updatedAt"]).toLocal(),
+      );
 
   @override
   String toString() {
