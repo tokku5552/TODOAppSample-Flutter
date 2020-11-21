@@ -35,19 +35,27 @@ class MainPage extends StatelessWidget {
                 .toList(),
           );
         }),
-        floatingActionButton: FloatingActionButton(
-          onPressed: () async {
-            await Navigator.push(
-              context,
-              MaterialPageRoute(
-                builder: (context) => TodoItemDetailPage(),
-                fullscreenDialog: true,
-              ),
-            );
-          },
-          child: Icon(Icons.add),
-        ),
+        floatingActionButton:
+            Consumer<MainModel>(builder: (context, model, child) {
+          return FloatingActionButton(
+            onPressed: () {
+              pushWithReload(context, model);
+            },
+            child: Icon(Icons.add),
+          );
+        }),
       ),
     );
+  }
+
+  void pushWithReload(BuildContext context, MainModel model) async {
+    final result = await Navigator.push(
+      context,
+      MaterialPageRoute(
+        builder: (context) => TodoItemDetailPage(),
+        fullscreenDialog: true,
+      ),
+    );
+    model.getTodoList();
   }
 }
