@@ -6,7 +6,7 @@ class TodoItemRepository {
   static String table = 'todo_item';
   static DatabaseProvider instance = DatabaseProvider.instance;
 
-  Future<void> create(String title, String body) async {
+  static Future<void> create(String title, String body) async {
     DateTime now = DateTime.now();
     final Map<String, dynamic> row = {
       'title': title,
@@ -25,29 +25,24 @@ class TodoItemRepository {
     );
   }
 
-  Future<List<TodoItem>> getAll() async {
+  static Future<List<TodoItem>> getAll() async {
     final Database db = await instance.database;
 
-    final List<Map<String, dynamic>> maps =
-        await db.rawQuery('SELECT * FROM $table ORDER BY updated_at DESC');
-
-    return List.generate(maps.length, (i) {
-      return TodoItem(
-        id: maps[i]['id'],
-        title: maps[i]['title'],
-        createdAt: maps[i]['createdAt'],
-      );
-    });
+    final rows =
+        await db.rawQuery('SELECT * FROM $table ORDER BY updatedAt DESC');
+    if (rows.isEmpty) return null;
+    return rows.map((json) => TodoItem.fromMap(json)).toList();
   }
 
-  Future<TodoItem> getTodoItem(int id) async {
+  static Future<TodoItem> getTodoItem(int id) async {
     final db = await instance.database;
     final rows = await db.rawQuery('SELECT * FROM $table WHERE id = ?', [id]);
     if (rows.isEmpty) return null;
     return TodoItem.fromMap(rows.first);
   }
 
-  Future<void> updateTodoItem({int id, String title, String body}) async {
+  static Future<void> updateTodoItem(
+      {int id, String title, String body}) async {
     String now = DateTime.now().toString();
     final row = {
       'id': id,
@@ -59,7 +54,7 @@ class TodoItemRepository {
     return await db.update(table, row, where: 'id = ?', whereArgs: [id]);
   }
 
-  Future<void> deleteTodoItem(int id) async {
+  static Future<void> deleteTodoItem(int id) async {
     final db = await instance.database;
     await db.delete(table, where: "id = ?", whereArgs: [id]);
   }
