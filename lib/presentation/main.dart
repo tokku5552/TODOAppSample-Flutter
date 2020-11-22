@@ -2,9 +2,10 @@ import 'package:flutter/cupertino.dart';
 import 'package:flutter/gestures.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
-import 'package:todo_app_sample_flutter/main_model.dart';
-import 'package:todo_app_sample_flutter/todo_item.dart';
-import 'package:todo_app_sample_flutter/todo_item_detail_page.dart';
+import 'package:todo_app_sample_flutter/data/todo_item.dart';
+import 'file:///C:/Users/physi/AndroidStudioProjects/todo_app_sample_flutter/lib/domain/main_model.dart';
+
+import 'file:///C:/Users/physi/AndroidStudioProjects/todo_app_sample_flutter/lib/presentation/todo_item_detail_page.dart';
 
 void main() {
   runApp(MyApp());

@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:todo_app_sample_flutter/todo_item_repository.dart';
+import 'file:///C:/Users/physi/AndroidStudioProjects/todo_app_sample_flutter/lib/data/todo_item_repository.dart';
 
 class TodoItemDetailModel extends ChangeNotifier {
   String todoTitle = "";

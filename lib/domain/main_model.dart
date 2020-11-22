@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
-import 'package:todo_app_sample_flutter/todo_item.dart';
-import 'package:todo_app_sample_flutter/todo_item_repository.dart';
+import 'file:///C:/Users/physi/AndroidStudioProjects/todo_app_sample_flutter/lib/data/todo_item_repository.dart';
+import 'package:todo_app_sample_flutter/data/todo_item.dart';
 
 class MainModel extends ChangeNotifier {
   List<TodoItem> list = [];
