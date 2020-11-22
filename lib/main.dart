@@ -1,7 +1,9 @@
 import 'package:flutter/cupertino.dart';
+import 'package:flutter/gestures.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 import 'package:todo_app_sample_flutter/main_model.dart';
+import 'package:todo_app_sample_flutter/todo_item.dart';
 import 'package:todo_app_sample_flutter/todo_item_detail_page.dart';
 
 void main() {
@@ -22,21 +24,32 @@ class MainPage extends StatelessWidget {
       create: (_) => MainModel()..getTodoList(),
       child: Scaffold(
         appBar: AppBar(
-          title: Text("Todo App Sample Flutter"),
+          title: Text("TODOAppSample-Flutter"),
         ),
         body: Consumer<MainModel>(builder: (context, model, child) {
           final todoList = model.list;
           return ListView(
             children: todoList
                     ?.map(
-                      (todo) => CheckboxListTile(
-                        title: Text(todo.title),
-                        value: todo.isDone,
-                        onChanged: (bool value) {
-                          todo.isDone = !todo.isDone;
-                          model.updateIsDone(todo.id, todo.isDone);
+                      (todo) => ListTile(
+                        leading: Checkbox(
+                          value: todo.isDone,
+                          onChanged: (bool value) {
+                            todo.isDone = !todo.isDone;
+                            model.updateIsDone(todo.id, todo.isDone);
+                          },
+                        ),
+                        title: RichText(
+                          text: TextSpan(
+                            text: todo.title,
+                            style: TextStyle(
+                              color: Colors.black87,
+                            ),
+                          ),
+                        ),
+                        onTap: () {
+                          pushWithReload(context, model, todoItem: todo);
                         },
-                        controlAffinity: ListTileControlAffinity.leading,
                       ),
                     )
                     ?.toList() ??
@@ -60,11 +73,14 @@ class MainPage extends StatelessWidget {
     );
   }
 
-  void pushWithReload(BuildContext context, MainModel model) async {
+  void pushWithReload(BuildContext context, MainModel model,
+      {TodoItem todoItem}) async {
     await Navigator.push(
       context,
       MaterialPageRoute(
-        builder: (context) => TodoItemDetailPage(),
+        builder: (context) => (todoItem == null)
+            ? TodoItemDetailPage()
+            : TodoItemDetailPage(todoItem: todoItem),
         fullscreenDialog: true,
       ),
     );

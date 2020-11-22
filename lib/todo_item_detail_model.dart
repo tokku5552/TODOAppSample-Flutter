@@ -10,4 +10,10 @@ class TodoItemDetailModel extends ChangeNotifier {
     await TodoItemRepository.create(todoTitle, todoBody, isDone);
     notifyListeners();
   }
+
+  Future<void> update(int id) async {
+    await TodoItemRepository.updateTodoItem(
+        id: id, title: todoTitle, body: todoBody);
+    notifyListeners();
+  }
 }
