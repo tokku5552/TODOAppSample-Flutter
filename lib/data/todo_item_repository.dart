@@ -1,5 +1,6 @@
 import 'package:sqflite/sqflite.dart';
-import 'file:///C:/Users/physi/AndroidStudioProjects/todo_app_sample_flutter/lib/data/database_provider.dart';
+import 'package:todo_app_sample_flutter/common/database_provider.dart';
+
 import 'package:todo_app_sample_flutter/data/todo_item.dart';
 
 class TodoItemRepository {
