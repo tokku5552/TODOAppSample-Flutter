@@ -1,6 +1,5 @@
 import 'package:sqflite/sqflite.dart';
 import 'package:todo_app_sample_flutter/common/database_provider.dart';
-
 import 'package:todo_app_sample_flutter/data/todo_item.dart';
 
 class TodoItemRepository {
@@ -28,11 +27,13 @@ class TodoItemRepository {
     );
   }
 
-  static Future<List<TodoItem>> getAll() async {
+  static Future<List<TodoItem>> getAll({bool viewCompletedItems}) async {
     final Database db = await instance.database;
 
-    final rows =
-        await db.rawQuery('SELECT * FROM $table ORDER BY updatedAt DESC');
+    final rows = (viewCompletedItems == null || viewCompletedItems)
+        ? await db.rawQuery('SELECT * FROM $table ORDER BY updatedAt DESC')
+        : await db.rawQuery(
+            'SELECT * FROM $table WHERE isDone = 0 ORDER BY updatedAt DESC');
     if (rows.isEmpty) return null;
     return rows.map((json) => TodoItem.fromMap(json)).toList();
   }

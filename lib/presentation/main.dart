@@ -16,6 +16,11 @@ class MyApp extends StatelessWidget {
 }
 
 class MainPage extends StatelessWidget {
+  final _displayConfig = [
+    VIEW_COMPLETED_ITEMS_TRUE_STRING,
+    VIEW_COMPLETED_ITEMS_FALSE_STRING
+  ];
+
   @override
   Widget build(BuildContext context) {
     return ChangeNotifierProvider<MainModel>(
@@ -23,6 +28,25 @@ class MainPage extends StatelessWidget {
       child: Scaffold(
         appBar: AppBar(
           title: Text("TODOAppSample-Flutter"),
+          actions: [
+            Consumer<MainModel>(builder: (context, model, child) {
+              return PopupMenuButton(
+                initialValue: "model.viewCompletedItems",
+                onSelected: (String s) {
+                  model.changeViewCompletedItems(s);
+                  model.getTodoList();
+                },
+                itemBuilder: (BuildContext context) {
+                  return _displayConfig.map((String s) {
+                    return PopupMenuItem(
+                      child: Text(s),
+                      value: s,
+                    );
+                  }).toList();
+                },
+              );
+            })
+          ],
         ),
         body: Consumer<MainModel>(builder: (context, model, child) {
           final todoList = model.list;
@@ -111,3 +135,6 @@ class MainPage extends StatelessWidget {
     model.getTodoList();
   }
 }
+
+const String VIEW_COMPLETED_ITEMS_TRUE_STRING = "完了済みのアイテムを表示する";
+const String VIEW_COMPLETED_ITEMS_FALSE_STRING = "完了済みのアイテムを表示しない";
