@@ -1,11 +1,8 @@
-import 'package:flutter/cupertino.dart';
-import 'package:flutter/gestures.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 import 'package:todo_app_sample_flutter/data/todo_item.dart';
-import 'file:///C:/Users/physi/AndroidStudioProjects/todo_app_sample_flutter/lib/domain/main_model.dart';
-
-import 'file:///C:/Users/physi/AndroidStudioProjects/todo_app_sample_flutter/lib/presentation/todo_item_detail_page.dart';
+import 'package:todo_app_sample_flutter/domain/main_model.dart';
+import 'package:todo_app_sample_flutter/presentation/todo_item_detail_page.dart';
 
 void main() {
   runApp(MyApp());
@@ -50,6 +47,32 @@ class MainPage extends StatelessWidget {
                         ),
                         onTap: () {
                           pushWithReload(context, model, todoItem: todo);
+                        },
+                        onLongPress: () {
+                          showDialog(
+                            context: context,
+                            builder: (BuildContext context) {
+                              return AlertDialog(
+                                title: Text("${todo.title}を削除しますか？"),
+                                actions: [
+                                  FlatButton(
+                                    onPressed: () {
+                                      model.deleteTodoItem(todo.id);
+                                      model.getTodoList();
+                                      Navigator.of(context).pop();
+                                    },
+                                    child: Text("はい"),
+                                  ),
+                                  FlatButton(
+                                    onPressed: () {
+                                      Navigator.of(context).pop();
+                                    },
+                                    child: Text("いいえ"),
+                                  ),
+                                ],
+                              );
+                            },
+                          );
                         },
                       ),
                     )
