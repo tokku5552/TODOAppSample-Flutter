@@ -34,7 +34,7 @@ class MainPage extends StatelessWidget {
                         value: todo.isDone,
                         onChanged: (bool value) {
                           todo.isDone = !todo.isDone;
-                          model.reload();
+                          model.updateIsDone(todo.id, todo.isDone);
                         },
                         controlAffinity: ListTileControlAffinity.leading,
                       ),

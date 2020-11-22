@@ -56,6 +56,45 @@ class TodoItemRepository {
     return await db.update(table, row, where: 'id = ?', whereArgs: [id]);
   }
 
+  static Future<void> updateIsDone(List<TodoItem> list) async {
+    final db = await instance.database;
+    String now = DateTime.now().toString();
+    list.forEach((todo) async {
+      final row = {
+        'id': todo.id,
+        'updatedAt': now,
+        'isDone': (todo.isDone) ? 1 : 0,
+      };
+      await db.update(table, row, where: 'id = ?', whereArgs: [todo.id]);
+    });
+  }
+
+  static Future<void> updateIsDoneByTodoItem(TodoItem todoItem) async {
+    String now = DateTime.now().toString();
+    print("todoItem=${todoItem.title}");
+    final row = {
+      'id': todoItem.id,
+      'updatedAt': now,
+      'isDone': (todoItem.isDone) ? 1 : 0,
+    };
+    final db = await instance.database;
+    return await db
+        .update(table, row, where: 'id = ?', whereArgs: [todoItem.id]);
+  }
+
+  static Future<void> updateIsDoneById(int id, bool isDone) async {
+    String now = DateTime.now().toString();
+    print("id=$id,isDone=$isDone");
+    final row = {
+      'id': id,
+      'updatedAt': now,
+      'isDone': (isDone) ? 1 : 0,
+    };
+    final db = await instance.database;
+
+    return await db.update(table, row, where: 'id = ?', whereArgs: [id]);
+  }
+
   static Future<void> deleteTodoItem(int id) async {
     final db = await instance.database;
     await db.delete(table, where: "id = ?", whereArgs: [id]);

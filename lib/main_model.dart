@@ -10,7 +10,9 @@ class MainModel extends ChangeNotifier {
     notifyListeners();
   }
 
-  void reload() {
+  void updateIsDone(int id, bool isDone) async {
+    // print("todoItem=${todoItem.title} isDone=${todoItem.isDone}");
+    await TodoItemRepository.updateIsDoneById(id, isDone);
     notifyListeners();
   }
 }
