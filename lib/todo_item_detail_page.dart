@@ -56,10 +56,29 @@ class TodoItemDetailPage extends StatelessWidget {
                 RaisedButton(
                   child: Text(isUpdate ? "更新する" : "追加する"),
                   onPressed: () async {
-                    isUpdate
-                        ? await model.update(todoItem.id)
-                        : await model.add();
-                    Navigator.pop(context);
+                    try {
+                      isUpdate
+                          ? await model.update(todoItem.id)
+                          : await model.add();
+                      Navigator.pop(context);
+                    } catch (e) {
+                      showDialog(
+                        context: context,
+                        builder: (BuildContext context) {
+                          return AlertDialog(
+                            title: Text(e.toString()),
+                            actions: [
+                              FlatButton(
+                                onPressed: () {
+                                  Navigator.of(context).pop();
+                                },
+                                child: Text("OK"),
+                              )
+                            ],
+                          );
+                        },
+                      );
+                    }
                   },
                 )
               ],
