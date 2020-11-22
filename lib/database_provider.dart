@@ -3,7 +3,12 @@ import 'package:sqflite/sqflite.dart';
 
 class DatabaseProvider {
   final databaseName = "TodoItem.db";
-  final databaseVersion = 3;
+  final databaseVersion = 2;
+  final migrations = [
+    '''
+  alter table todo_item add column isDone BOOL default false;
+  '''
+  ];
 
   DatabaseProvider._();
 
@@ -24,21 +29,25 @@ class DatabaseProvider {
       title TEXT NOT NULL,
       body TEXT NOT NULL,
       createdAt TEXT NOT NULL,
-      updatedAt TEXT NOT NULL
+      updatedAt TEXT NOT NULL,
+      isDone TEXT NOT NULL
     )
     ''');
   }
 
   initDatabase() async {
-    return await openDatabase(
-      join(await getDatabasesPath(), databaseName),
-      version: databaseVersion,
-      onCreate: (db, version) async {
-        var batch = db.batch();
-        _createTable(batch);
-        await batch.commit();
-      },
-      onDowngrade: onDatabaseDowngradeDelete,
-    );
+    return await openDatabase(join(await getDatabasesPath(), databaseName),
+        version: databaseVersion,
+        onCreate: (db, version) async {
+          var batch = db.batch();
+          _createTable(batch);
+          await batch.commit();
+        },
+        onDowngrade: onDatabaseDowngradeDelete,
+        onUpgrade: (db, oldVersion, newVersion) async {
+          for (var i = oldVersion - 1; i <= newVersion - 1; i++) {
+            await db.execute(migrations[i]);
+          }
+        });
   }
 }

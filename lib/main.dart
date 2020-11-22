@@ -1,3 +1,4 @@
+import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 import 'package:todo_app_sample_flutter/main_model.dart';
@@ -27,12 +28,23 @@ class MainPage extends StatelessWidget {
           final todoList = model.list;
           return ListView(
             children: todoList
-                .map(
-                  (todo) => ListTile(
-                    title: Text(todo.title),
-                  ),
-                )
-                .toList(),
+                    ?.map(
+                      (todo) => CheckboxListTile(
+                        title: Text(todo.title),
+                        value: todo.isDone,
+                        onChanged: (bool value) {
+                          todo.isDone = !todo.isDone;
+                          model.reload();
+                        },
+                        controlAffinity: ListTileControlAffinity.leading,
+                      ),
+                    )
+                    ?.toList() ??
+                [
+                  ListTile(
+                    title: Text(""),
+                  )
+                ],
           );
         }),
         floatingActionButton:
@@ -49,7 +61,7 @@ class MainPage extends StatelessWidget {
   }
 
   void pushWithReload(BuildContext context, MainModel model) async {
-    final result = await Navigator.push(
+    await Navigator.push(
       context,
       MaterialPageRoute(
         builder: (context) => TodoItemDetailPage(),

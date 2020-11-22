@@ -9,4 +9,8 @@ class MainModel extends ChangeNotifier {
     list = await TodoItemRepository.getAll();
     notifyListeners();
   }
+
+  void reload() {
+    notifyListeners();
+  }
 }

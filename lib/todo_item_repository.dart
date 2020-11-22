@@ -6,13 +6,14 @@ class TodoItemRepository {
   static String table = 'todo_item';
   static DatabaseProvider instance = DatabaseProvider.instance;
 
-  static Future<void> create(String title, String body) async {
+  static Future<void> create(String title, String body, bool isDone) async {
     DateTime now = DateTime.now();
     final Map<String, dynamic> row = {
       'title': title,
       'body': body,
       'createdAt': now.toString(),
       'updatedAt': now.toString(),
+      'isDone': (isDone == true) ? 1 : 0,
     };
     final db = await instance.database;
     final id = await db.insert(table, row);
@@ -22,6 +23,7 @@ class TodoItemRepository {
       body: row["body"],
       createdAt: now,
       updatedAt: now,
+      isDone: isDone,
     );
   }
 
