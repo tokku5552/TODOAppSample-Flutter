@@ -1,3 +1,10 @@
+/*
+ * Copyright (c) 2020 tokku5552
+ *
+ * This software is released under the MIT License.
+ * https://opensource.org/licenses/mit-license.php
+ *
+ */
 import 'package:path/path.dart';
 import 'package:sqflite/sqflite.dart';
 

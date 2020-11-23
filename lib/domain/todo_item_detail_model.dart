@@ -1,3 +1,10 @@
+/*
+ * Copyright (c) 2020 tokku5552
+ *
+ * This software is released under the MIT License.
+ * https://opensource.org/licenses/mit-license.php
+ *
+ */
 import 'package:flutter/material.dart';
 import 'file:///C:/Users/physi/AndroidStudioProjects/todo_app_sample_flutter/lib/data/todo_item_repository.dart';
 
