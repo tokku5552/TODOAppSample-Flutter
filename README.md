@@ -1,4 +1,4 @@
-# todo_app_sample_flutter
+# TODOAppSample-Flutter
 
 A sample Todo App with Provider
 
