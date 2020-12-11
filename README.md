@@ -12,6 +12,6 @@ A sample Todo App with Provider
  - shared_preferences: ^0.5.12+4
  
 ## License
-Copyright (c) 2020 tokku5552
-This software is released under the MIT License.
+Copyright (c) 2020 tokku5552  
+This software is released under the MIT License.  
 https://opensource.org/licenses/mit-license.php
