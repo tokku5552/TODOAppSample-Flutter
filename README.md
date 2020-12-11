@@ -1,6 +1,7 @@
 # TODOAppSample-Flutter
 
-A sample Todo App with Provider
+A sample Todo App with Provider  
+This project uses Git-Flow  
 
 ## DEMO
 ![Screenshot showing TODOAppSample-Flutter for TodoList](docs/images/demo_todo_list.png "Demo Todo List")
