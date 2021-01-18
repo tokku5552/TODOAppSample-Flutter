@@ -7,7 +7,7 @@
  */
 import 'package:todo_app_sample_flutter/common/persistence_storage_provider.dart';
 
-class StorageRepository {
+class StorageRepositoryImpl {
   static PersistenceStorageProvider instance =
       PersistenceStorageProvider.instance;
 

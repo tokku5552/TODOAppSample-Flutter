@@ -6,7 +6,7 @@
  *
  */
 import 'package:flutter/material.dart';
-import 'package:todo_app_sample_flutter/data/todo_item_repository.dart';
+import 'package:todo_app_sample_flutter/infrastructure/todo_item_repository_impl.dart';
 
 class TodoItemDetailModel extends ChangeNotifier {
   String todoTitle = "";
@@ -17,7 +17,7 @@ class TodoItemDetailModel extends ChangeNotifier {
     if (todoTitle == null || todoTitle.isEmpty) {
       throw ("タイトルを入力してください。");
     }
-    await TodoItemRepository.create(
+    await TodoItemRepositoryImpl.create(
       todoTitle,
       (todoBody.isEmpty) ? "" : todoBody,
       isDone,
@@ -26,7 +26,7 @@ class TodoItemDetailModel extends ChangeNotifier {
   }
 
   Future<void> update(int id) async {
-    await TodoItemRepository.updateTodoItem(
+    await TodoItemRepositoryImpl.updateTodoItem(
       id: id,
       title: (todoTitle.isEmpty) ? todoTitle = "" : todoTitle,
       body: (todoBody.isEmpty) ? "" : todoBody,

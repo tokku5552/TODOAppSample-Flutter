@@ -7,8 +7,8 @@
  */
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
-import 'package:todo_app_sample_flutter/data/todo_item.dart';
-import 'package:todo_app_sample_flutter/domain/todo_item_detail_model.dart';
+import 'package:todo_app_sample_flutter/domain/todo_item.dart';
+import 'package:todo_app_sample_flutter/presentation/todo_item_detail/todo_item_detail_model.dart';
 
 class TodoItemDetailPage extends StatelessWidget {
   TodoItemDetailPage({this.todoItem});

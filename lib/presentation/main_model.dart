@@ -7,9 +7,9 @@
  */
 import 'package:flutter/material.dart';
 import 'package:todo_app_sample_flutter/common/persistence_storage_provider.dart';
-import 'package:todo_app_sample_flutter/data/storage_repository.dart';
-import 'package:todo_app_sample_flutter/data/todo_item.dart';
-import 'package:todo_app_sample_flutter/data/todo_item_repository.dart';
+import 'package:todo_app_sample_flutter/domain/todo_item.dart';
+import 'package:todo_app_sample_flutter/infrastructure/storage_repository_impl.dart';
+import 'package:todo_app_sample_flutter/infrastructure/todo_item_repository_impl.dart';
 import 'package:todo_app_sample_flutter/presentation/main.dart';
 
 class MainModel extends ChangeNotifier {
@@ -23,18 +23,18 @@ class MainModel extends ChangeNotifier {
   final persistenceStorage = PersistenceStorageProvider.instance;
 
   void getTodoList() async {
-    list =
-        await TodoItemRepository.getAll(viewCompletedItems: viewCompletedItems);
+    list = await TodoItemRepositoryImpl.getAll(
+        viewCompletedItems: viewCompletedItems);
     notifyListeners();
   }
 
   void updateIsDone(int id, bool isDone) async {
-    await TodoItemRepository.updateIsDoneById(id, isDone);
+    await TodoItemRepositoryImpl.updateIsDoneById(id, isDone);
     notifyListeners();
   }
 
   void deleteTodoItem(int id) async {
-    await TodoItemRepository.deleteTodoItem(id);
+    await TodoItemRepositoryImpl.deleteTodoItem(id);
     notifyListeners();
   }
 
@@ -47,15 +47,15 @@ class MainModel extends ChangeNotifier {
         viewCompletedItems = false;
         break;
     }
-    StorageRepository.savePersistenceStorage(
+    StorageRepositoryImpl.savePersistenceStorage(
         VIEW_COMPLETED_ITEMS_KEY, viewCompletedItems.toString());
   }
 
   Future<String> loadViewCompletedItems() async {
-    if (!await StorageRepository.isExistKey(VIEW_COMPLETED_ITEMS_KEY)) {
+    if (!await StorageRepositoryImpl.isExistKey(VIEW_COMPLETED_ITEMS_KEY)) {
       return VIEW_COMPLETED_ITEMS_KEY_NONE;
     } else {
-      return await StorageRepository.loadPersistenceStorage(
+      return await StorageRepositoryImpl.loadPersistenceStorage(
           VIEW_COMPLETED_ITEMS_KEY);
     }
   }
