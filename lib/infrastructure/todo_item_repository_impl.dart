@@ -10,7 +10,7 @@ import 'package:todo_app_sample_flutter/common/database_provider.dart';
 import 'package:todo_app_sample_flutter/domain/todo_item.dart';
 import 'package:todo_app_sample_flutter/domain/todo_item_repository.dart';
 
-class TodoItemRepositoryImpl extends TodoItemRepository {
+class TodoItemRepositoryImpl implements TodoItemRepository {
   static String table = 'todo_item';
   static DatabaseProvider instance = DatabaseProvider.instance;
 
