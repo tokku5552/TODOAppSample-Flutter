@@ -9,25 +9,21 @@ import 'package:todo_app_sample_flutter/common/persistence_storage_provider.dart
 import 'package:todo_app_sample_flutter/domain/storage_repository.dart';
 
 class StorageRepositoryImpl implements StorageRepository {
-  static PersistenceStorageProvider instance =
-      PersistenceStorageProvider.instance;
+  PersistenceStorageProvider _provider = PersistenceStorageProvider();
 
   @override
   Future<void> savePersistenceStorage(String key, String value) async {
-    final pref = await instance.prefs;
-    await pref.setString(key, value);
+    await _provider.setString(key, value);
   }
 
   @override
   Future<String> loadPersistenceStorage(String key) async {
-    final pref = await instance.prefs;
-    return pref.getString(key);
+    return _provider.getString(key);
   }
 
   @override
   Future<bool> isExistKey(String key) async {
-    final pref = await instance.prefs;
-    return pref.containsKey(key);
+    return _provider.containsKey(key);
   }
 }
 

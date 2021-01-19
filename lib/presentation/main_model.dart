@@ -24,7 +24,7 @@ class MainModel extends ChangeNotifier {
   StorageRepository _storageRepository = StorageRepositoryImpl();
   List<TodoItem> list = [];
   bool viewCompletedItems;
-  final persistenceStorage = PersistenceStorageProvider.instance;
+  final persistenceStorage = PersistenceStorageProvider();
 
   void getTodoList() async {
     list = await _todoItemRepository.getAll(
