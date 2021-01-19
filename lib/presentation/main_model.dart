@@ -8,6 +8,7 @@
 import 'package:flutter/material.dart';
 import 'package:todo_app_sample_flutter/common/persistence_storage_provider.dart';
 import 'package:todo_app_sample_flutter/domain/todo_item.dart';
+import 'package:todo_app_sample_flutter/domain/todo_item_repository.dart';
 import 'package:todo_app_sample_flutter/infrastructure/storage_repository_impl.dart';
 import 'package:todo_app_sample_flutter/infrastructure/todo_item_repository_impl.dart';
 import 'package:todo_app_sample_flutter/presentation/main.dart';
@@ -18,23 +19,24 @@ class MainModel extends ChangeNotifier {
         (loadViewCompletedItems().toString() == "true") ? true : false;
   }
 
+  TodoItemRepository _todoItemRepository = TodoItemRepositoryImpl();
   List<TodoItem> list = [];
   bool viewCompletedItems;
   final persistenceStorage = PersistenceStorageProvider.instance;
 
   void getTodoList() async {
-    list = await TodoItemRepositoryImpl.getAll(
+    list = await _todoItemRepository.getAll(
         viewCompletedItems: viewCompletedItems);
     notifyListeners();
   }
 
   void updateIsDone(int id, bool isDone) async {
-    await TodoItemRepositoryImpl.updateIsDoneById(id, isDone);
+    await _todoItemRepository.updateIsDoneById(id, isDone);
     notifyListeners();
   }
 
   void deleteTodoItem(int id) async {
-    await TodoItemRepositoryImpl.deleteTodoItem(id);
+    await _todoItemRepository.deleteTodoItem(id);
     notifyListeners();
   }
 
