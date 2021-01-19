@@ -7,6 +7,7 @@
  */
 import 'package:flutter/material.dart';
 import 'package:todo_app_sample_flutter/common/persistence_storage_provider.dart';
+import 'package:todo_app_sample_flutter/domain/storage_repository.dart';
 import 'package:todo_app_sample_flutter/domain/todo_item.dart';
 import 'package:todo_app_sample_flutter/domain/todo_item_repository.dart';
 import 'package:todo_app_sample_flutter/infrastructure/storage_repository_impl.dart';
@@ -20,6 +21,7 @@ class MainModel extends ChangeNotifier {
   }
 
   TodoItemRepository _todoItemRepository = TodoItemRepositoryImpl();
+  StorageRepository _storageRepository = StorageRepositoryImpl();
   List<TodoItem> list = [];
   bool viewCompletedItems;
   final persistenceStorage = PersistenceStorageProvider.instance;
@@ -49,16 +51,16 @@ class MainModel extends ChangeNotifier {
         viewCompletedItems = false;
         break;
     }
-    StorageRepositoryImpl.savePersistenceStorage(
+    _storageRepository.savePersistenceStorage(
         VIEW_COMPLETED_ITEMS_KEY, viewCompletedItems.toString());
   }
 
   Future<String> loadViewCompletedItems() async {
-    if (!await StorageRepositoryImpl.isExistKey(VIEW_COMPLETED_ITEMS_KEY)) {
+    if (!await _storageRepository.isExistKey(VIEW_COMPLETED_ITEMS_KEY)) {
       return VIEW_COMPLETED_ITEMS_KEY_NONE;
     } else {
-      return await StorageRepositoryImpl.loadPersistenceStorage(
-          VIEW_COMPLETED_ITEMS_KEY);
+      return await _storageRepository
+          .loadPersistenceStorage(VIEW_COMPLETED_ITEMS_KEY);
     }
   }
 }

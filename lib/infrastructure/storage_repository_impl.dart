@@ -12,17 +12,20 @@ class StorageRepositoryImpl implements StorageRepository {
   static PersistenceStorageProvider instance =
       PersistenceStorageProvider.instance;
 
-  static void savePersistenceStorage(String key, String value) async {
+  @override
+  Future<void> savePersistenceStorage(String key, String value) async {
     final pref = await instance.prefs;
     await pref.setString(key, value);
   }
 
-  static Future<String> loadPersistenceStorage(String key) async {
+  @override
+  Future<String> loadPersistenceStorage(String key) async {
     final pref = await instance.prefs;
     return pref.getString(key);
   }
 
-  static Future<bool> isExistKey(String key) async {
+  @override
+  Future<bool> isExistKey(String key) async {
     final pref = await instance.prefs;
     return pref.containsKey(key);
   }
