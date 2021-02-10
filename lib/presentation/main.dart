@@ -13,19 +13,24 @@ import 'package:todo_app_sample_flutter/presentation/main_model.dart';
 import 'package:todo_app_sample_flutter/presentation/todo_item_detail/todo_item_detail_page.dart';
 
 void main() {
-  runApp(MyApp());
-}
-
-class MyApp extends StatelessWidget {
-  @override
-  Widget build(BuildContext context) {
-    return MultiProvider(
+  runApp(
+    MultiProvider(
       providers: [
         Provider<PersistenceStorageProvider>(
           create: (_) => PersistenceStorageProvider(),
         )
       ],
-      child: MaterialApp(title: 'TodoAppSampleFlutter', home: MainPage()),
+      child: App(),
+    ),
+  );
+}
+
+class App extends StatelessWidget {
+  @override
+  Widget build(BuildContext context) {
+    return MaterialApp(
+      title: 'TodoAppSampleFlutter',
+      home: MainPage(),
     );
   }
 }
