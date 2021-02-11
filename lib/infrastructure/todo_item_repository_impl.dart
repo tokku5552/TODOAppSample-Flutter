@@ -7,13 +7,15 @@
  */
 import 'package:sqflite/sqflite.dart';
 import 'package:todo_app_sample_flutter/common/database_provider.dart';
-import 'package:todo_app_sample_flutter/data/todo_item.dart';
+import 'package:todo_app_sample_flutter/domain/todo_item.dart';
+import 'package:todo_app_sample_flutter/domain/todo_item_repository.dart';
 
-class TodoItemRepository {
+class TodoItemRepositoryImpl implements TodoItemRepository {
   static String table = 'todo_item';
   static DatabaseProvider instance = DatabaseProvider.instance;
 
-  static Future<void> create(String title, String body, bool isDone) async {
+  @override
+  Future<TodoItem> create(String title, String body, bool isDone) async {
     DateTime now = DateTime.now();
     final Map<String, dynamic> row = {
       'title': title,
@@ -34,7 +36,8 @@ class TodoItemRepository {
     );
   }
 
-  static Future<List<TodoItem>> getAll({bool viewCompletedItems}) async {
+  @override
+  Future<List<TodoItem>> getAll({bool viewCompletedItems}) async {
     final Database db = await instance.database;
 
     final rows = (viewCompletedItems == null || viewCompletedItems)
@@ -45,15 +48,16 @@ class TodoItemRepository {
     return rows.map((json) => TodoItem.fromMap(json)).toList();
   }
 
-  static Future<TodoItem> getTodoItem(int id) async {
+  @override
+  Future<TodoItem> getTodoItem(int id) async {
     final db = await instance.database;
     final rows = await db.rawQuery('SELECT * FROM $table WHERE id = ?', [id]);
     if (rows.isEmpty) return null;
     return TodoItem.fromMap(rows.first);
   }
 
-  static Future<void> updateTodoItem(
-      {int id, String title, String body}) async {
+  @override
+  Future<void> updateTodoItem({int id, String title, String body}) async {
     String now = DateTime.now().toString();
     final row = {
       'id': id,
@@ -62,10 +66,11 @@ class TodoItemRepository {
       'updatedAt': now,
     };
     final db = await instance.database;
-    return await db.update(table, row, where: 'id = ?', whereArgs: [id]);
+    await db.update(table, row, where: 'id = ?', whereArgs: [id]);
   }
 
-  static Future<void> updateIsDone(List<TodoItem> list) async {
+  @override
+  Future<void> updateIsDone(List<TodoItem> list) async {
     final db = await instance.database;
     String now = DateTime.now().toString();
     list.forEach((todo) async {
@@ -78,7 +83,8 @@ class TodoItemRepository {
     });
   }
 
-  static Future<void> updateIsDoneByTodoItem(TodoItem todoItem) async {
+  @override
+  Future<void> updateIsDoneByTodoItem(TodoItem todoItem) async {
     String now = DateTime.now().toString();
     print("todoItem=${todoItem.title}");
     final row = {
@@ -87,11 +93,11 @@ class TodoItemRepository {
       'isDone': (todoItem.isDone) ? 1 : 0,
     };
     final db = await instance.database;
-    return await db
-        .update(table, row, where: 'id = ?', whereArgs: [todoItem.id]);
+    await db.update(table, row, where: 'id = ?', whereArgs: [todoItem.id]);
   }
 
-  static Future<void> updateIsDoneById(int id, bool isDone) async {
+  @override
+  Future<void> updateIsDoneById(int id, bool isDone) async {
     String now = DateTime.now().toString();
     print("id=$id,isDone=$isDone");
     final row = {
@@ -100,11 +106,11 @@ class TodoItemRepository {
       'isDone': (isDone) ? 1 : 0,
     };
     final db = await instance.database;
-
-    return await db.update(table, row, where: 'id = ?', whereArgs: [id]);
+    await db.update(table, row, where: 'id = ?', whereArgs: [id]);
   }
 
-  static Future<void> deleteTodoItem(int id) async {
+  @override
+  Future<void> deleteTodoItem(int id) async {
     final db = await instance.database;
     await db.delete(table, where: "id = ?", whereArgs: [id]);
   }

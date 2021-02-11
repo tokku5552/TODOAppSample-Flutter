@@ -6,18 +6,22 @@
  *
  */
 import 'package:flutter/material.dart';
-import 'package:todo_app_sample_flutter/data/todo_item_repository.dart';
+import 'package:todo_app_sample_flutter/domain/todo_item_repository.dart';
 
 class TodoItemDetailModel extends ChangeNotifier {
+  TodoItemDetailModel({
+    @required TodoItemRepository todoItemRepository,
+  }) : _todoItemRepository = todoItemRepository;
   String todoTitle = "";
   String todoBody = "";
   bool isDone = false;
+  TodoItemRepository _todoItemRepository;
 
   Future<void> add() async {
     if (todoTitle == null || todoTitle.isEmpty) {
       throw ("タイトルを入力してください。");
     }
-    await TodoItemRepository.create(
+    await _todoItemRepository.create(
       todoTitle,
       (todoBody.isEmpty) ? "" : todoBody,
       isDone,
@@ -26,7 +30,7 @@ class TodoItemDetailModel extends ChangeNotifier {
   }
 
   Future<void> update(int id) async {
-    await TodoItemRepository.updateTodoItem(
+    await _todoItemRepository.updateTodoItem(
       id: id,
       title: (todoTitle.isEmpty) ? todoTitle = "" : todoTitle,
       body: (todoBody.isEmpty) ? "" : todoBody,
