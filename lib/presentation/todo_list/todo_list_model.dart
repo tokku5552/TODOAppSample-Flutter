@@ -1,21 +1,19 @@
 /*
- * Copyright (c) 2020 tokku5552
+ * Copyright (c) 2021 tokku5552
  *
  * This software is released under the MIT License.
  * https://opensource.org/licenses/mit-license.php
  *
  */
 import 'package:flutter/material.dart';
-
 import 'package:todo_app_sample_flutter/domain/storage_repository.dart';
 import 'package:todo_app_sample_flutter/domain/todo_item.dart';
 import 'package:todo_app_sample_flutter/domain/todo_item_repository.dart';
 import 'package:todo_app_sample_flutter/infrastructure/storage_repository_impl.dart';
 import 'package:todo_app_sample_flutter/infrastructure/todo_item_repository_impl.dart';
-import 'package:todo_app_sample_flutter/presentation/main.dart';
 
-class MainModel extends ChangeNotifier {
-  MainModel() {
+class TodoListModel extends ChangeNotifier {
+  TodoListModel() {
     this.viewCompletedItems =
         (loadViewCompletedItems().toString() == "true") ? true : false;
   }
@@ -64,3 +62,6 @@ class MainModel extends ChangeNotifier {
     }
   }
 }
+
+const String VIEW_COMPLETED_ITEMS_TRUE_STRING = "完了済みのアイテムを表示する";
+const String VIEW_COMPLETED_ITEMS_FALSE_STRING = "完了済みのアイテムを表示しない";

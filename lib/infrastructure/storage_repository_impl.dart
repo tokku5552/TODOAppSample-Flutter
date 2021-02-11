@@ -5,7 +5,6 @@
  * https://opensource.org/licenses/mit-license.php
  *
  */
-import 'package:shared_preferences/shared_preferences.dart';
 import 'package:todo_app_sample_flutter/common/persistence_storage_provider.dart';
 import 'package:todo_app_sample_flutter/domain/storage_repository.dart';
 
