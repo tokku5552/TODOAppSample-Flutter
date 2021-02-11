@@ -80,7 +80,7 @@ class TodoItemRepositoryImpl implements TodoItemRepository {
       'id': todoItem.id,
       'title': todoItem.title,
       'body': todoItem.body,
-      'updatedAt': todoItem.updatedAt,
+      'updatedAt': todoItem.updatedAt.toString(),
     };
     final db = await instance.database;
     await db.update(table, row, where: 'id = ?', whereArgs: [todoItem.id]);
