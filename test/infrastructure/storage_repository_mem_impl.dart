@@ -4,9 +4,13 @@ class StorageRepositoryMemImpl implements StorageRepository {
   // { key : value }
   final _data = <String, String>{};
 
+  void clear() {
+    _data.clear();
+  }
+
   @override
   Future<bool> isExistKey(String key) {
-    return Future.value(_data[key] == null);
+    return Future.value(_data[key] != null);
   }
 
   @override
