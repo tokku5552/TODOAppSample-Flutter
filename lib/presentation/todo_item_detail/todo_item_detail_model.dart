@@ -26,15 +26,18 @@ class TodoItemDetailModel extends ChangeNotifier {
       todoTitle,
       (todoBody.isEmpty) ? "" : todoBody,
       isDone,
+      DateTime.now(),
     );
     notifyListeners();
   }
 
   Future<void> update(int id) async {
     final todoItem = TodoItem(
-        id: id,
-        title: (todoTitle.isEmpty) ? todoTitle = "" : todoTitle,
-        body: (todoBody.isEmpty) ? "" : todoBody);
+      id: id,
+      title: (todoTitle.isEmpty) ? todoTitle = "" : todoTitle,
+      body: (todoBody.isEmpty) ? "" : todoBody,
+      updatedAt: DateTime.now(),
+    );
     await _todoItemRepository.update(todoItem);
     notifyListeners();
   }

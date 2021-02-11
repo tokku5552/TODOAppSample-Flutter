@@ -15,8 +15,8 @@ class TodoItemRepositoryImpl implements TodoItemRepository {
   static DatabaseProvider instance = DatabaseProvider.instance;
 
   @override
-  Future<TodoItem> create(String title, String body, bool isDone) async {
-    DateTime now = DateTime.now();
+  Future<TodoItem> create(
+      String title, String body, bool isDone, DateTime now) async {
     final Map<String, dynamic> row = {
       'title': title,
       'body': body,
@@ -57,12 +57,11 @@ class TodoItemRepositoryImpl implements TodoItemRepository {
   }
 
   @override
-  Future<void> updateIsDoneById(int id, bool isDone) async {
-    String now = DateTime.now().toString();
+  Future<void> updateIsDoneById(int id, bool isDone, DateTime updatedAt) async {
     print("id=$id,isDone=$isDone");
     final row = {
       'id': id,
-      'updatedAt': now,
+      'updatedAt': updatedAt.toString(),
       'isDone': (isDone) ? 1 : 0,
     };
     final db = await instance.database;
@@ -77,12 +76,11 @@ class TodoItemRepositoryImpl implements TodoItemRepository {
 
   @override
   Future<void> update(TodoItem todoItem) async {
-    String now = DateTime.now().toString();
     final row = {
       'id': todoItem.id,
       'title': todoItem.title,
       'body': todoItem.body,
-      'updatedAt': now,
+      'updatedAt': todoItem.updatedAt,
     };
     final db = await instance.database;
     await db.update(table, row, where: 'id = ?', whereArgs: [todoItem.id]);

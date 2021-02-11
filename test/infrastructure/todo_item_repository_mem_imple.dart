@@ -14,23 +14,11 @@ class TodoItemRepositoryMemImpl implements TodoItemRepository {
 
   // Repository内部やDB側で自動生成されるものを外部から操作できるようにする
   int _nextId;
-  DateTime _nextCreatedAt;
-  DateTime _nextUpdatedAt;
 
   int get nextId => _nextId;
-  DateTime get nextCreatedAt => _nextCreatedAt;
-  DateTime get nextUpdatedAt => _nextUpdatedAt;
 
   void setNextId(int id) {
     _nextId = id;
-  }
-
-  void setNextCreatedAt(DateTime createdAt) {
-    _nextCreatedAt = createdAt;
-  }
-
-  void setNextUpdatedAt(DateTime updatedAt) {
-    _nextUpdatedAt = nextUpdatedAt;
   }
 
   void clear() {
@@ -38,13 +26,14 @@ class TodoItemRepositoryMemImpl implements TodoItemRepository {
   }
 
   @override
-  Future<TodoItem> create(String title, String body, bool isDone) {
+  Future<TodoItem> create(
+      String title, String body, bool isDone, DateTime now) {
     final result = TodoItem(
       id: _nextId,
       title: title,
       body: body,
-      createdAt: _nextCreatedAt,
-      updatedAt: _nextUpdatedAt,
+      createdAt: now,
+      updatedAt: now,
     );
     _data[_nextId] = result;
     return Future.value(result);
@@ -68,9 +57,10 @@ class TodoItemRepositoryMemImpl implements TodoItemRepository {
   }
 
   @override
-  Future<void> updateIsDoneById(int id, bool isDone) {
+  Future<void> updateIsDoneById(int id, bool isDone, DateTime updatedAt) {
     final todoItem = _data[id];
     todoItem.isDone = isDone;
+    todoItem.updatedAt = updatedAt;
     _data[id] = todoItem;
     return null;
   }
