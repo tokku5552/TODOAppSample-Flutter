@@ -6,6 +6,7 @@
  *
  */
 import 'package:flutter/material.dart';
+import 'package:todo_app_sample_flutter/domain/todo_item.dart';
 import 'package:todo_app_sample_flutter/domain/todo_item_repository.dart';
 
 class TodoItemDetailModel extends ChangeNotifier {
@@ -30,11 +31,11 @@ class TodoItemDetailModel extends ChangeNotifier {
   }
 
   Future<void> update(int id) async {
-    await _todoItemRepository.updateTodoItem(
-      id: id,
-      title: (todoTitle.isEmpty) ? todoTitle = "" : todoTitle,
-      body: (todoBody.isEmpty) ? "" : todoBody,
-    );
+    final todoItem = TodoItem(
+        id: id,
+        title: (todoTitle.isEmpty) ? todoTitle = "" : todoTitle,
+        body: (todoBody.isEmpty) ? "" : todoBody);
+    await _todoItemRepository.update(todoItem);
     notifyListeners();
   }
 }

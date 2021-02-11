@@ -26,7 +26,7 @@ class TodoListModel extends ChangeNotifier {
   bool viewCompletedItems;
 
   void getTodoList() async {
-    list = await _todoItemRepository.getAll(
+    list = await _todoItemRepository.findAll(
         viewCompletedItems: viewCompletedItems);
     notifyListeners();
   }
@@ -37,11 +37,11 @@ class TodoListModel extends ChangeNotifier {
   }
 
   void deleteTodoItem(int id) async {
-    await _todoItemRepository.deleteTodoItem(id);
+    await _todoItemRepository.delete(id);
     notifyListeners();
   }
 
-  changeViewCompletedItems(String s) {
+  void changeViewCompletedItems(String s) {
     switch (s) {
       case VIEW_COMPLETED_ITEMS_TRUE_STRING:
         viewCompletedItems = true;
