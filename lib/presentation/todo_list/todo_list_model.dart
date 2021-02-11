@@ -9,16 +9,18 @@ import 'package:flutter/material.dart';
 import 'package:todo_app_sample_flutter/domain/storage_repository.dart';
 import 'package:todo_app_sample_flutter/domain/todo_item.dart';
 import 'package:todo_app_sample_flutter/domain/todo_item_repository.dart';
-import 'package:todo_app_sample_flutter/infrastructure/todo_item_repository_impl.dart';
 
 class TodoListModel extends ChangeNotifier {
-  TodoListModel({@required StorageRepository storageRepository})
-      : _storageRepository = storageRepository {
+  TodoListModel({
+    @required StorageRepository storageRepository,
+    @required TodoItemRepository todoItemRepository,
+  })  : _storageRepository = storageRepository,
+        _todoItemRepository = todoItemRepository {
     this.viewCompletedItems =
         (loadViewCompletedItems().toString() == "true") ? true : false;
   }
 
-  final TodoItemRepository _todoItemRepository = TodoItemRepositoryImpl();
+  final TodoItemRepository _todoItemRepository;
   final StorageRepository _storageRepository;
   List<TodoItem> list = [];
   bool viewCompletedItems;

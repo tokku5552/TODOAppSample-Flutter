@@ -7,13 +7,15 @@
  */
 import 'package:flutter/material.dart';
 import 'package:todo_app_sample_flutter/domain/todo_item_repository.dart';
-import 'package:todo_app_sample_flutter/infrastructure/todo_item_repository_impl.dart';
 
 class TodoItemDetailModel extends ChangeNotifier {
+  TodoItemDetailModel({
+    @required TodoItemRepository todoItemRepository,
+  }) : _todoItemRepository = todoItemRepository;
   String todoTitle = "";
   String todoBody = "";
   bool isDone = false;
-  TodoItemRepository _todoItemRepository = TodoItemRepositoryImpl();
+  TodoItemRepository _todoItemRepository;
 
   Future<void> add() async {
     if (todoTitle == null || todoTitle.isEmpty) {
