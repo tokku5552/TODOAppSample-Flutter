@@ -6,6 +6,8 @@
  *
  */
 
+import 'dart:io';
+
 import 'package:flutter_test/flutter_test.dart';
 import 'package:todo_app_sample_flutter/domain/todo_item.dart';
 import 'package:todo_app_sample_flutter/presentation/todo_item_detail/todo_item_detail_model.dart';
@@ -19,10 +21,9 @@ void main() {
   final dummyDate = DateTime.now();
 
   group('add', () {
-    repository.clear();
-
     test('正常系', () async {
       // 事前準備
+      repository.clear();
       final data = TodoItem(
         id: 0,
         title: 'テストタイトル',
@@ -56,9 +57,9 @@ void main() {
   });
 
   group('update', () {
-    repository.clear();
     test('正常系', () async {
       // 事前準備
+      repository.clear();
       final data = TodoItem(
         id: 0,
         title: 'テストタイトル',
@@ -66,7 +67,8 @@ void main() {
         createdAt: dummyDate,
         updatedAt: dummyDate,
       );
-      repository.create('変更前', '変更前', false, DateTime.now());
+      repository.create(
+          '変更前', '変更前', false, DateTime.now().subtract(Duration(days: 1)));
       model.todoTitle = data.title;
       model.todoBody = data.body;
 
