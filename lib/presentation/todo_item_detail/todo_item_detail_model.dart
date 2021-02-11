@@ -13,10 +13,11 @@ class TodoItemDetailModel extends ChangeNotifier {
   TodoItemDetailModel({
     @required TodoItemRepository todoItemRepository,
   }) : _todoItemRepository = todoItemRepository;
+  TodoItemRepository _todoItemRepository;
+
   String todoTitle = "";
   String todoBody = "";
   bool isDone = false;
-  TodoItemRepository _todoItemRepository;
 
   Future<void> add() async {
     if (todoTitle == null || todoTitle.isEmpty) {

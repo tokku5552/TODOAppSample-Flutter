@@ -37,7 +37,7 @@ class TodoItemRepositoryImpl implements TodoItemRepository {
   }
 
   @override
-  Future<List<TodoItem>> findAll({bool viewCompletedItems}) async {
+  Future<List<TodoItem>> findAll({bool viewCompletedItems = true}) async {
     final Database db = await instance.database;
 
     final rows = (viewCompletedItems == null || viewCompletedItems)
