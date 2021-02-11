@@ -15,8 +15,8 @@ class TodoItemRepositoryImpl implements TodoItemRepository {
   static DatabaseProvider instance = DatabaseProvider.instance;
 
   @override
-  Future<TodoItem> create(String title, String body, bool isDone) async {
-    DateTime now = DateTime.now();
+  Future<TodoItem> create(
+      String title, String body, bool isDone, DateTime now) async {
     final Map<String, dynamic> row = {
       'title': title,
       'body': body,
@@ -37,7 +37,7 @@ class TodoItemRepositoryImpl implements TodoItemRepository {
   }
 
   @override
-  Future<List<TodoItem>> getAll({bool viewCompletedItems}) async {
+  Future<List<TodoItem>> findAll({bool viewCompletedItems = true}) async {
     final Database db = await instance.database;
 
     final rows = (viewCompletedItems == null || viewCompletedItems)
@@ -49,7 +49,7 @@ class TodoItemRepositoryImpl implements TodoItemRepository {
   }
 
   @override
-  Future<TodoItem> getTodoItem(int id) async {
+  Future<TodoItem> find(int id) async {
     final db = await instance.database;
     final rows = await db.rawQuery('SELECT * FROM $table WHERE id = ?', [id]);
     if (rows.isEmpty) return null;
@@ -57,52 +57,10 @@ class TodoItemRepositoryImpl implements TodoItemRepository {
   }
 
   @override
-  Future<void> updateTodoItem({int id, String title, String body}) async {
-    String now = DateTime.now().toString();
-    final row = {
-      'id': id,
-      'title': title,
-      'body': body,
-      'updatedAt': now,
-    };
-    final db = await instance.database;
-    await db.update(table, row, where: 'id = ?', whereArgs: [id]);
-  }
-
-  @override
-  Future<void> updateIsDone(List<TodoItem> list) async {
-    final db = await instance.database;
-    String now = DateTime.now().toString();
-    list.forEach((todo) async {
-      final row = {
-        'id': todo.id,
-        'updatedAt': now,
-        'isDone': (todo.isDone) ? 1 : 0,
-      };
-      await db.update(table, row, where: 'id = ?', whereArgs: [todo.id]);
-    });
-  }
-
-  @override
-  Future<void> updateIsDoneByTodoItem(TodoItem todoItem) async {
-    String now = DateTime.now().toString();
-    print("todoItem=${todoItem.title}");
-    final row = {
-      'id': todoItem.id,
-      'updatedAt': now,
-      'isDone': (todoItem.isDone) ? 1 : 0,
-    };
-    final db = await instance.database;
-    await db.update(table, row, where: 'id = ?', whereArgs: [todoItem.id]);
-  }
-
-  @override
   Future<void> updateIsDoneById(int id, bool isDone) async {
-    String now = DateTime.now().toString();
     print("id=$id,isDone=$isDone");
     final row = {
       'id': id,
-      'updatedAt': now,
       'isDone': (isDone) ? 1 : 0,
     };
     final db = await instance.database;
@@ -110,8 +68,20 @@ class TodoItemRepositoryImpl implements TodoItemRepository {
   }
 
   @override
-  Future<void> deleteTodoItem(int id) async {
+  Future<void> delete(int id) async {
     final db = await instance.database;
     await db.delete(table, where: "id = ?", whereArgs: [id]);
+  }
+
+  @override
+  Future<void> update(TodoItem todoItem) async {
+    final row = {
+      'id': todoItem.id,
+      'title': todoItem.title,
+      'body': todoItem.body,
+      'updatedAt': todoItem.updatedAt.toString(),
+    };
+    final db = await instance.database;
+    await db.update(table, row, where: 'id = ?', whereArgs: [todoItem.id]);
   }
 }

@@ -1,12 +1,10 @@
 import 'package:todo_app_sample_flutter/domain/todo_item.dart';
 
 abstract class TodoItemRepository {
-  Future<TodoItem> create(String title, String body, bool isDone);
-  Future<List<TodoItem>> getAll({bool viewCompletedItems});
-  Future<TodoItem> getTodoItem(int id);
-  Future<void> updateTodoItem({int id, String title, String body});
-  Future<void> updateIsDone(List<TodoItem> list);
-  Future<void> updateIsDoneByTodoItem(TodoItem todoItem);
+  Future<TodoItem> create(String title, String body, bool isDone, DateTime now);
+  Future<List<TodoItem>> findAll({bool viewCompletedItems});
+  Future<TodoItem> find(int id);
+  Future<void> update(TodoItem todoItem);
   Future<void> updateIsDoneById(int id, bool isDone);
-  Future<void> deleteTodoItem(int id);
+  Future<void> delete(int id);
 }

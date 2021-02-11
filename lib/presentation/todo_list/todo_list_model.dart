@@ -25,23 +25,23 @@ class TodoListModel extends ChangeNotifier {
   List<TodoItem> list = [];
   bool viewCompletedItems;
 
-  void getTodoList() async {
-    list = await _todoItemRepository.getAll(
+  Future<void> getTodoList() async {
+    list = await _todoItemRepository.findAll(
         viewCompletedItems: viewCompletedItems);
     notifyListeners();
   }
 
-  void updateIsDone(int id, bool isDone) async {
+  Future<void> updateIsDone(int id, bool isDone) async {
     await _todoItemRepository.updateIsDoneById(id, isDone);
     notifyListeners();
   }
 
-  void deleteTodoItem(int id) async {
-    await _todoItemRepository.deleteTodoItem(id);
+  Future<void> deleteTodoItem(int id) async {
+    await _todoItemRepository.delete(id);
     notifyListeners();
   }
 
-  changeViewCompletedItems(String s) {
+  Future<void> changeViewCompletedItems(String s) async {
     switch (s) {
       case VIEW_COMPLETED_ITEMS_TRUE_STRING:
         viewCompletedItems = true;
@@ -50,7 +50,7 @@ class TodoListModel extends ChangeNotifier {
         viewCompletedItems = false;
         break;
     }
-    _storageRepository.savePersistenceStorage(
+    await _storageRepository.savePersistenceStorage(
         VIEW_COMPLETED_ITEMS_KEY, viewCompletedItems.toString());
   }
 
