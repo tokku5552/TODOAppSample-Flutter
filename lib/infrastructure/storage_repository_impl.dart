@@ -5,25 +5,30 @@
  * https://opensource.org/licenses/mit-license.php
  *
  */
+import 'package:shared_preferences/shared_preferences.dart';
 import 'package:todo_app_sample_flutter/common/persistence_storage_provider.dart';
 import 'package:todo_app_sample_flutter/domain/storage_repository.dart';
 
 class StorageRepositoryImpl implements StorageRepository {
-  PersistenceStorageProvider _provider = PersistenceStorageProvider();
+  final PersistenceStorageProvider _instance =
+      PersistenceStorageProvider.instance;
 
   @override
   Future<void> savePersistenceStorage(String key, String value) async {
-    await _provider.setString(key, value);
+    final pref = await _instance.prefs;
+    await pref.setString(key, value);
   }
 
   @override
   Future<String> loadPersistenceStorage(String key) async {
-    return _provider.getString(key);
+    final pref = await _instance.prefs;
+    return pref.getString(key);
   }
 
   @override
   Future<bool> isExistKey(String key) async {
-    return _provider.containsKey(key);
+    final pref = await _instance.prefs;
+    return pref.containsKey(key);
   }
 }
 

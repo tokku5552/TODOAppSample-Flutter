@@ -6,7 +6,7 @@
  *
  */
 import 'package:flutter/material.dart';
-import 'package:todo_app_sample_flutter/common/persistence_storage_provider.dart';
+
 import 'package:todo_app_sample_flutter/domain/storage_repository.dart';
 import 'package:todo_app_sample_flutter/domain/todo_item.dart';
 import 'package:todo_app_sample_flutter/domain/todo_item_repository.dart';
@@ -24,7 +24,7 @@ class MainModel extends ChangeNotifier {
   StorageRepository _storageRepository = StorageRepositoryImpl();
   List<TodoItem> list = [];
   bool viewCompletedItems;
-  final persistenceStorage = PersistenceStorageProvider();
+  // final persistenceStorage = PersistenceStorageProvider();
 
   void getTodoList() async {
     list = await _todoItemRepository.getAll(

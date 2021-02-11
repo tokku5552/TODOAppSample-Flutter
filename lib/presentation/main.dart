@@ -7,8 +7,9 @@
  */
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
-import 'package:todo_app_sample_flutter/common/persistence_storage_provider.dart';
+import 'package:todo_app_sample_flutter/domain/storage_repository.dart';
 import 'package:todo_app_sample_flutter/domain/todo_item.dart';
+import 'package:todo_app_sample_flutter/infrastructure/storage_repository_impl.dart';
 import 'package:todo_app_sample_flutter/presentation/main_model.dart';
 import 'package:todo_app_sample_flutter/presentation/todo_item_detail/todo_item_detail_page.dart';
 
@@ -16,8 +17,8 @@ void main() {
   runApp(
     MultiProvider(
       providers: [
-        Provider<PersistenceStorageProvider>(
-          create: (_) => PersistenceStorageProvider(),
+        Provider<StorageRepository>(
+          create: (_) => StorageRepositoryImpl(),
         )
       ],
       child: App(),

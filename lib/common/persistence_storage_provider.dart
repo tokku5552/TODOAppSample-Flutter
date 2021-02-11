@@ -8,23 +8,20 @@
 import 'package:shared_preferences/shared_preferences.dart';
 
 class PersistenceStorageProvider {
+  PersistenceStorageProvider._();
+
+  static final PersistenceStorageProvider instance =
+      PersistenceStorageProvider._();
   SharedPreferences _prefs;
 
-  Future<void> open() async {
-    _prefs = await SharedPreferences.getInstance();
+  Future<SharedPreferences> get prefs async {
+    if (_prefs != null) return _prefs;
+    _prefs = await initSharedPreferences();
+    return _prefs;
   }
 
-  Future<bool> setString(String key, String value) async {
-    final result = await _prefs.setString(key, value);
-    return result;
-  }
-
-  String getString(String key) {
-    final result = _prefs.getString(key);
-    return result;
-  }
-
-  bool containsKey(String key) {
-    return _prefs.containsKey(key);
+  initSharedPreferences() async {
+    SharedPreferences prefs = await SharedPreferences.getInstance();
+    return prefs;
   }
 }
