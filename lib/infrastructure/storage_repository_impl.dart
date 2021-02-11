@@ -30,6 +30,3 @@ class StorageRepositoryImpl implements StorageRepository {
     return pref.containsKey(key);
   }
 }
-
-const String VIEW_COMPLETED_ITEMS_KEY = "view_completed_items";
-const String VIEW_COMPLETED_ITEMS_KEY_NONE = "NONE";

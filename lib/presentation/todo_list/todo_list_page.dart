@@ -7,6 +7,7 @@
  */
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
+import 'package:todo_app_sample_flutter/domain/storage_repository.dart';
 import 'package:todo_app_sample_flutter/domain/todo_item.dart';
 import 'package:todo_app_sample_flutter/presentation/todo_item_detail/todo_item_detail_page.dart';
 import 'package:todo_app_sample_flutter/presentation/todo_list/todo_list_model.dart';
@@ -20,7 +21,9 @@ class TodoListPage extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return ChangeNotifierProvider<TodoListModel>(
-      create: (_) => TodoListModel()..getTodoList(),
+      create: (_) => TodoListModel(
+        storageRepository: context.read<StorageRepository>(),
+      )..getTodoList(),
       child: Scaffold(
         appBar: AppBar(
           title: Text("TODOAppSample-Flutter"),
