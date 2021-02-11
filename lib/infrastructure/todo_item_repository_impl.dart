@@ -57,11 +57,10 @@ class TodoItemRepositoryImpl implements TodoItemRepository {
   }
 
   @override
-  Future<void> updateIsDoneById(int id, bool isDone, DateTime updatedAt) async {
+  Future<void> updateIsDoneById(int id, bool isDone) async {
     print("id=$id,isDone=$isDone");
     final row = {
       'id': id,
-      'updatedAt': updatedAt.toString(),
       'isDone': (isDone) ? 1 : 0,
     };
     final db = await instance.database;

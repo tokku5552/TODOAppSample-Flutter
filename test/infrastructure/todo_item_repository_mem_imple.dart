@@ -57,10 +57,9 @@ class TodoItemRepositoryMemImpl implements TodoItemRepository {
   }
 
   @override
-  Future<void> updateIsDoneById(int id, bool isDone, DateTime updatedAt) {
+  Future<void> updateIsDoneById(int id, bool isDone) {
     final todoItem = _data[id];
     todoItem.isDone = isDone;
-    todoItem.updatedAt = updatedAt;
     _data[id] = todoItem;
     return null;
   }

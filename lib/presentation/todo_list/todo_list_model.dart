@@ -33,7 +33,7 @@ class TodoListModel extends ChangeNotifier {
 
   void updateIsDone(int id, bool isDone) async {
     final now = DateTime.now();
-    await _todoItemRepository.updateIsDoneById(id, isDone, now);
+    await _todoItemRepository.updateIsDoneById(id, isDone);
     notifyListeners();
   }
 

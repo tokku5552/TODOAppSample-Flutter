@@ -5,6 +5,6 @@ abstract class TodoItemRepository {
   Future<List<TodoItem>> findAll({bool viewCompletedItems});
   Future<TodoItem> find(int id);
   Future<void> update(TodoItem todoItem);
-  Future<void> updateIsDoneById(int id, bool isDone, DateTime updatedAt);
+  Future<void> updateIsDoneById(int id, bool isDone);
   Future<void> delete(int id);
 }
