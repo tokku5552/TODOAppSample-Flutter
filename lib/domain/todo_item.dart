@@ -15,21 +15,17 @@ class TodoItem {
       this.isDone});
 
   final int id;
-  final String title;
-  final String body;
+  String title;
+  String body;
   final DateTime createdAt;
-  final DateTime updatedAt;
+  DateTime updatedAt;
   bool isDone;
 
   // define getter
   int get getId => id;
-
   String get getTitle => '$title';
-
   String get getBody => '$body';
-
   DateTime get getUpdatedAt => updatedAt;
-
   bool get getIsDone => isDone;
 
   Map<String, dynamic> toMap() {

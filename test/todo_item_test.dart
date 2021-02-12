@@ -6,7 +6,7 @@
  *
  */
 import 'package:flutter_test/flutter_test.dart';
-import 'package:todo_app_sample_flutter/data/todo_item.dart';
+import 'package:todo_app_sample_flutter/domain/todo_item.dart';
 
 void main() {
   group("TodoItemのゲッターのテスト", () {

@@ -12,7 +12,6 @@ class PersistenceStorageProvider {
 
   static final PersistenceStorageProvider instance =
       PersistenceStorageProvider._();
-
   SharedPreferences _prefs;
 
   Future<SharedPreferences> get prefs async {
