@@ -7,6 +7,9 @@ This project uses Git-Flow
 ![Screenshot showing TODOAppSample-Flutter for TodoList](docs/images/demo_todo_list.png "Demo Todo List")
 ![Screenshot showing TODOAppSample-Flutter for TodoDetail](docs/images/demo_todo_detail.png "Demo Todo Detail")
 
+## Diagram
+![todoapp_flutter_class_diagram](docs/images/todosample-flutter_class_diagramm.jpg "diagram")  
+
 ## Libraries
  - provider: ^4.3.2+2
  - sqflite: ^1.3.2+1
