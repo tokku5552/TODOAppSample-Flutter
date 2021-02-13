@@ -25,7 +25,7 @@ class TodoListPage extends StatelessWidget {
       create: (_) => TodoListModel(
         storageRepository: context.read<StorageRepository>(),
         todoItemRepository: context.read<TodoItemRepository>(),
-      )..getTodoList(),
+      )..init(),
       child: Scaffold(
         appBar: AppBar(
           title: Text("TODOAppSample-Flutter"),
