@@ -12,12 +12,12 @@ import 'package:todo_app_sample_flutter/domain/todo_item_repository.dart';
 import 'package:todo_app_sample_flutter/presentation/todo_item_detail/todo_item_detail_model.dart';
 
 class TodoItemDetailPage extends StatelessWidget {
-  TodoItemDetailPage({this.todoItem});
+  const TodoItemDetailPage({this.todoItem});
   final TodoItem todoItem;
 
   @override
   Widget build(BuildContext context) {
-    final bool isUpdate = todoItem != null;
+    final isUpdate = todoItem != null;
     final titleEditingController = TextEditingController();
     final detailEditingController = TextEditingController();
     titleEditingController.text = todoItem?.title;
@@ -28,51 +28,51 @@ class TodoItemDetailPage extends StatelessWidget {
       ),
       child: Scaffold(
         appBar: AppBar(
-          title: Text(isUpdate ? "タスクの更新" : "新規追加"),
+          title: Text(isUpdate ? 'タスクの更新' : '新規追加'),
         ),
         body: Consumer<TodoItemDetailModel>(builder: (context, model, child) {
-          model.todoTitle = todoItem?.title;
-          model.todoBody = todoItem?.body;
+          todoItem ?? model.setTodoItem(todoItem);
           return Padding(
-            padding: const EdgeInsets.all(16.0),
+            padding: const EdgeInsets.all(16),
             child: Column(
               children: [
                 TextField(
-                  decoration: InputDecoration(
-                    labelText: "タイトル",
-                    hintText: "やること",
+                  decoration: const InputDecoration(
+                    labelText: 'タイトル',
+                    hintText: 'やること',
                   ),
                   onChanged: (title) {
                     model.todoTitle = title;
                   },
                   controller: titleEditingController,
                 ),
-                SizedBox(
+                const SizedBox(
                   height: 16,
                 ),
                 TextField(
-                  decoration: InputDecoration(
-                    labelText: "詳細",
-                    hintText: "やることの詳細",
+                  decoration: const InputDecoration(
+                    labelText: '詳細',
+                    hintText: 'やることの詳細',
                   ),
                   onChanged: (body) {
                     model.todoBody = body;
                   },
                   controller: detailEditingController,
                 ),
-                SizedBox(
+                const SizedBox(
                   height: 16,
                 ),
                 RaisedButton(
-                  child: Text(isUpdate ? "更新する" : "追加する"),
+                  child: Text(isUpdate ? '更新する' : '追加する'),
                   onPressed: () async {
                     try {
                       isUpdate
                           ? await model.update(todoItem.id)
                           : await model.add();
                       Navigator.pop(context);
+                      // ignore: avoid_catches_without_on_clauses
                     } catch (e) {
-                      showDialog(
+                      await showDialog<AlertDialog>(
                         context: context,
                         builder: (BuildContext context) {
                           return AlertDialog(
@@ -82,7 +82,7 @@ class TodoItemDetailPage extends StatelessWidget {
                                 onPressed: () {
                                   Navigator.of(context).pop();
                                 },
-                                child: Text("OK"),
+                                child: const Text('OK'),
                               )
                             ],
                           );
