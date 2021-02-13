@@ -15,15 +15,16 @@ class TodoListModel extends ChangeNotifier {
     @required StorageRepository storageRepository,
     @required TodoItemRepository todoItemRepository,
   })  : _storageRepository = storageRepository,
-        _todoItemRepository = todoItemRepository {
-    this.viewCompletedItems =
-        (loadViewCompletedItems().toString() == "true") ? true : false;
-  }
-
+        _todoItemRepository = todoItemRepository;
   final TodoItemRepository _todoItemRepository;
   final StorageRepository _storageRepository;
   List<TodoItem> list = [];
   bool viewCompletedItems;
+
+  Future<void> init() async {
+    viewCompletedItems = await loadViewCompletedItems();
+    await getTodoList();
+  }
 
   Future<void> getTodoList() async {
     list = await _todoItemRepository.findAll(
@@ -54,12 +55,13 @@ class TodoListModel extends ChangeNotifier {
         VIEW_COMPLETED_ITEMS_KEY, viewCompletedItems.toString());
   }
 
-  Future<String> loadViewCompletedItems() async {
+  Future<bool> loadViewCompletedItems() async {
     if (!await _storageRepository.isExistKey(VIEW_COMPLETED_ITEMS_KEY)) {
-      return VIEW_COMPLETED_ITEMS_KEY_NONE;
+      return null;
     } else {
-      return await _storageRepository
+      final result = await _storageRepository
           .loadPersistenceStorage(VIEW_COMPLETED_ITEMS_KEY);
+      return result == 'true';
     }
   }
 }
