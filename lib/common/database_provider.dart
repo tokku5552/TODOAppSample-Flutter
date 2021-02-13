@@ -9,7 +9,9 @@ import 'package:path/path.dart';
 import 'package:sqflite/sqflite.dart';
 
 class DatabaseProvider {
-  final databaseName = "TodoItem.db";
+  DatabaseProvider._();
+
+  final databaseName = 'TodoItem.db';
   final databaseVersion = 2;
   final migrations = [
     '''
@@ -17,16 +19,12 @@ class DatabaseProvider {
   '''
   ];
 
-  DatabaseProvider._();
-
   static final DatabaseProvider instance = DatabaseProvider._();
 
   Database _database;
 
   Future<Database> get database async {
-    if (_database != null) return _database;
-    _database = await initDatabase();
-    return _database;
+    return _database ??= await initDatabase();
   }
 
   void _createTable(Batch batch) {
@@ -42,19 +40,21 @@ class DatabaseProvider {
     ''');
   }
 
-  initDatabase() async {
-    return await openDatabase(join(await getDatabasesPath(), databaseName),
-        version: databaseVersion,
-        onCreate: (db, version) async {
-          var batch = db.batch();
-          _createTable(batch);
-          await batch.commit();
-        },
-        onDowngrade: onDatabaseDowngradeDelete,
-        onUpgrade: (db, oldVersion, newVersion) async {
-          for (var i = oldVersion - 1; i <= newVersion - 1; i++) {
-            await db.execute(migrations[i]);
-          }
-        });
+  Future<Database> initDatabase() async {
+    final result =
+        await openDatabase(join(await getDatabasesPath(), databaseName),
+            version: databaseVersion,
+            onCreate: (db, version) async {
+              final batch = db.batch();
+              _createTable(batch);
+              await batch.commit();
+            },
+            onDowngrade: onDatabaseDowngradeDelete,
+            onUpgrade: (db, oldVersion, newVersion) async {
+              for (var i = oldVersion - 1; i <= newVersion - 1; i++) {
+                await db.execute(migrations[i]);
+              }
+            });
+    return result;
   }
 }

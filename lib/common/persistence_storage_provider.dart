@@ -15,13 +15,11 @@ class PersistenceStorageProvider {
   SharedPreferences _prefs;
 
   Future<SharedPreferences> get prefs async {
-    if (_prefs != null) return _prefs;
-    _prefs = await initSharedPreferences();
-    return _prefs;
+    return _prefs ??= await initSharedPreferences();
   }
 
-  initSharedPreferences() async {
-    SharedPreferences prefs = await SharedPreferences.getInstance();
+  Future<SharedPreferences> initSharedPreferences() async {
+    final prefs = await SharedPreferences.getInstance();
     return prefs;
   }
 }
