@@ -18,6 +18,6 @@ jobs:
           fetch-depth: 1
       - uses: subosito/flutter-action@v1
         with:
-          channel: 'beta'
+          channel: 'stable'
       - run: flutter pub get
       - run: flutter analyze
