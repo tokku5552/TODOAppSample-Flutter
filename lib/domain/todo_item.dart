@@ -14,6 +14,15 @@ class TodoItem {
       this.updatedAt,
       this.isDone});
 
+  factory TodoItem.fromMap(Map<String, dynamic> json) => TodoItem(
+        id: json['id'] as int,
+        title: json['title'] as String,
+        body: json['body'] as String,
+        createdAt: DateTime.parse(json['createdAt'] as String).toLocal(),
+        updatedAt: DateTime.parse(json['updatedAt'] as String).toLocal(),
+        isDone: json['isDone'] == '1',
+      );
+
   final int id;
   String title;
   String body;
@@ -29,24 +38,15 @@ class TodoItem {
   bool get getIsDone => isDone;
 
   Map<String, dynamic> toMap() {
-    return {
+    return <String, dynamic>{
       'id': id,
       'title': title,
       'body': body,
       'createdAt': createdAt.toUtc().toIso8601String(),
       'updatedAt': updatedAt.toUtc().toIso8601String(),
-      'isDone': (isDone) ? 1 : 0,
+      'isDone': isDone ? 1 : 0,
     };
   }
-
-  factory TodoItem.fromMap(Map<String, dynamic> json) => TodoItem(
-        id: json["id"],
-        title: json["title"],
-        body: json["body"],
-        createdAt: DateTime.parse(json["createdAt"]).toLocal(),
-        updatedAt: DateTime.parse(json["updatedAt"]).toLocal(),
-        isDone: (json["isDone"] == "1") ? true : false,
-      );
 
   @override
   String toString() {

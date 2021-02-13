@@ -14,16 +14,15 @@ import 'infrastructure/storage_repository_mem_impl.dart';
 import 'infrastructure/todo_item_repository_mem_impl.dart';
 
 void main() {
-  final StorageRepositoryMemImpl storageRepository = StorageRepositoryMemImpl();
-  final TodoItemRepositoryMemImpl todoItemRepository =
-      TodoItemRepositoryMemImpl();
+  final storageRepository = StorageRepositoryMemImpl();
+  final todoItemRepository = TodoItemRepositoryMemImpl();
   final model = TodoListModel(
       storageRepository: storageRepository,
       todoItemRepository: todoItemRepository);
   final now = DateTime.now();
   final yesterday =
       DateTime(now.year, now.month, now.day - 1, now.hour, now.minute);
-  final List<TodoItem> data = [
+  final data = <TodoItem>[
     TodoItem(
       id: 1,
       title: 'title1',
@@ -51,18 +50,24 @@ void main() {
     test('正常系', () async {
       // 事前準備
       todoItemRepository.clear();
-      data.forEach((todoItem) {
-        todoItemRepository.incrementId();
-        todoItemRepository.create(
-            todoItem.title, todoItem.body, todoItem.isDone, now);
-      });
+
+      for (final todoItem in data) {
+        todoItemRepository
+          ..incrementId()
+          ..create(
+              title: todoItem.title,
+              body: todoItem.body,
+              isDone: todoItem.isDone,
+              now: now);
+      }
+
       model.viewCompletedItems = true;
 
       // メソッド実行
-      bool isSuccessful = true;
+      var isSuccessful = true;
       try {
         await model.getTodoList();
-      } catch (e) {
+      } on Exception {
         isSuccessful = false;
       }
 
@@ -83,14 +88,18 @@ void main() {
     test('正常系', () async {
       // 事前準備
       todoItemRepository.clear();
-      data.forEach((todoItem) {
-        todoItemRepository.incrementId();
-        todoItemRepository.create(
-            todoItem.title, todoItem.body, todoItem.isDone, now);
-      });
+      for (final todoItem in data) {
+        todoItemRepository
+          ..incrementId()
+          ..create(
+              title: todoItem.title,
+              body: todoItem.body,
+              isDone: todoItem.isDone,
+              now: now);
+      }
 
       // メソッド実行
-      await model.updateIsDone(2, true);
+      await model.updateIsDone(id: 2, isDone: true);
 
       // 結果確認
       final result = await todoItemRepository.findAll();
@@ -102,21 +111,26 @@ void main() {
     test('正常系', () async {
       // 事前準備
       todoItemRepository.clear();
-      data.forEach((todoItem) {
-        todoItemRepository.incrementId();
-        todoItemRepository.create(
-            todoItem.title, todoItem.body, todoItem.isDone, now);
-      });
+      for (final todoItem in data) {
+        todoItemRepository
+          ..incrementId()
+          ..create(
+              title: todoItem.title,
+              body: todoItem.body,
+              isDone: todoItem.isDone,
+              now: now);
+      }
 
       // メソッド実行
-      await model.deleteTodoItem(1);
+      await model.deleteTodoItem(id: 1);
 
       // 結果確認
       final result = await todoItemRepository.findAll();
       expect(result.length, 2);
-      result.forEach((value) {
+
+      for (final value in result) {
         expect(value.id != 1, true);
-      });
+      }
     });
   });
 
@@ -126,14 +140,12 @@ void main() {
       storageRepository.clear();
 
       // メソッド実行
-      await model.changeViewCompletedItems(VIEW_COMPLETED_ITEMS_TRUE_STRING);
+      await model.changeViewCompletedItems(viewCompletedItemsTrueString);
 
       // 結果確認
+      expect(await storageRepository.isExistKey(viewCompletedItemsKey), true);
       expect(
-          await storageRepository.isExistKey(VIEW_COMPLETED_ITEMS_KEY), true);
-      expect(
-          await storageRepository
-              .loadPersistenceStorage(VIEW_COMPLETED_ITEMS_KEY),
+          await storageRepository.loadPersistenceStorage(viewCompletedItemsKey),
           'true');
     });
   });
@@ -147,27 +159,25 @@ void main() {
       final result = await model.loadViewCompletedItems();
 
       // 結果確認
-      expect(
-          await storageRepository.isExistKey(VIEW_COMPLETED_ITEMS_KEY), false);
+      expect(await storageRepository.isExistKey(viewCompletedItemsKey), false);
       expect(result, null);
     });
 
     test('正常系:keyがある時', () async {
       // 事前準備
-      storageRepository.clear();
-      storageRepository.savePersistenceStorage(
-          VIEW_COMPLETED_ITEMS_KEY, VIEW_COMPLETED_ITEMS_TRUE_STRING);
+      storageRepository
+        ..clear()
+        ..savePersistenceStorage(
+            viewCompletedItemsKey, viewCompletedItemsTrueString);
 
       // メソッド実行
       await model.loadViewCompletedItems();
 
       // 結果確認
+      expect(await storageRepository.isExistKey(viewCompletedItemsKey), true);
       expect(
-          await storageRepository.isExistKey(VIEW_COMPLETED_ITEMS_KEY), true);
-      expect(
-          await storageRepository
-              .loadPersistenceStorage(VIEW_COMPLETED_ITEMS_KEY),
-          VIEW_COMPLETED_ITEMS_TRUE_STRING);
+          await storageRepository.loadPersistenceStorage(viewCompletedItemsKey),
+          viewCompletedItemsTrueString);
     });
   });
 }

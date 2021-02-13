@@ -32,39 +32,44 @@ class TodoListModel extends ChangeNotifier {
     notifyListeners();
   }
 
-  Future<void> updateIsDone(int id, bool isDone) async {
-    await _todoItemRepository.updateIsDoneById(id, isDone);
+  Future<void> updateIsDone({@required int id, @required bool isDone}) async {
+    await _todoItemRepository.updateIsDoneById(id: id, isDone: isDone);
     notifyListeners();
   }
 
-  Future<void> deleteTodoItem(int id) async {
-    await _todoItemRepository.delete(id);
+  Future<void> deleteTodoItem({@required int id}) async {
+    await _todoItemRepository.delete(id: id);
     notifyListeners();
   }
 
-  Future<void> changeViewCompletedItems(String s) async {
-    switch (s) {
-      case VIEW_COMPLETED_ITEMS_TRUE_STRING:
+  Future<void> deleteAndReload({@required int id}) async {
+    await deleteTodoItem(id: id);
+    await getTodoList();
+  }
+
+  Future<void> changeViewCompletedItems(String viewCompletedItemString) async {
+    switch (viewCompletedItemString) {
+      case viewCompletedItemsTrueString:
         viewCompletedItems = true;
         break;
-      case VIEW_COMPLETED_ITEMS_FALSE_STRING:
+      case viewCompletedItemsFalseString:
         viewCompletedItems = false;
         break;
     }
     await _storageRepository.savePersistenceStorage(
-        VIEW_COMPLETED_ITEMS_KEY, viewCompletedItems.toString());
+        viewCompletedItemsKey, viewCompletedItems.toString());
   }
 
   Future<bool> loadViewCompletedItems() async {
-    if (!await _storageRepository.isExistKey(VIEW_COMPLETED_ITEMS_KEY)) {
+    if (!await _storageRepository.isExistKey(viewCompletedItemsKey)) {
       return null;
     } else {
       final result = await _storageRepository
-          .loadPersistenceStorage(VIEW_COMPLETED_ITEMS_KEY);
+          .loadPersistenceStorage(viewCompletedItemsKey);
       return result == 'true';
     }
   }
 }
 
-const String VIEW_COMPLETED_ITEMS_TRUE_STRING = "完了済みのアイテムを表示する";
-const String VIEW_COMPLETED_ITEMS_FALSE_STRING = "完了済みのアイテムを表示しない";
+const String viewCompletedItemsTrueString = '完了済みのアイテムを表示する';
+const String viewCompletedItemsFalseString = '完了済みのアイテムを表示しない';
