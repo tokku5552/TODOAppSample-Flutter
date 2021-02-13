@@ -5,7 +5,6 @@
  * https://opensource.org/licenses/mit-license.php
  *
  */
-import 'package:sqflite/sqflite.dart';
 import 'package:todo_app_sample_flutter/common/database_provider.dart';
 import 'package:todo_app_sample_flutter/domain/todo_item.dart';
 import 'package:todo_app_sample_flutter/domain/todo_item_repository.dart';
@@ -17,7 +16,7 @@ class TodoItemRepositoryImpl implements TodoItemRepository {
   @override
   Future<TodoItem> create(
       String title, String body, bool isDone, DateTime now) async {
-    final Map<String, dynamic> row = {
+    final row = <String, dynamic>{
       'title': title,
       'body': body,
       'createdAt': now.toString(),
@@ -28,8 +27,8 @@ class TodoItemRepositoryImpl implements TodoItemRepository {
     final id = await db.insert(table, row);
     return TodoItem(
       id: id,
-      title: row["title"],
-      body: row["body"],
+      title: row['title'] as String,
+      body: row['body'] as String,
       createdAt: now,
       updatedAt: now,
       isDone: isDone,
@@ -38,7 +37,7 @@ class TodoItemRepositoryImpl implements TodoItemRepository {
 
   @override
   Future<List<TodoItem>> findAll({bool viewCompletedItems = true}) async {
-    final Database db = await instance.database;
+    final db = await instance.database;
 
     final rows = (viewCompletedItems == null || viewCompletedItems)
         ? await db.rawQuery('SELECT * FROM $table ORDER BY updatedAt DESC')
@@ -51,26 +50,30 @@ class TodoItemRepositoryImpl implements TodoItemRepository {
   @override
   Future<TodoItem> find(int id) async {
     final db = await instance.database;
-    final rows = await db.rawQuery('SELECT * FROM $table WHERE id = ?', [id]);
-    if (rows.isEmpty) return null;
-    return TodoItem.fromMap(rows.first);
+    final rows =
+        await db.rawQuery('SELECT * FROM $table WHERE id = ?', <int>[id]);
+    if (rows.isEmpty) {
+      return null;
+    } else {
+      return TodoItem.fromMap(rows.first);
+    }
   }
 
   @override
   Future<void> updateIsDoneById(int id, bool isDone) async {
-    print("id=$id,isDone=$isDone");
+    print('id=$id,isDone=$isDone');
     final row = {
       'id': id,
-      'isDone': (isDone) ? 1 : 0,
+      'isDone': isDone ? 1 : 0,
     };
     final db = await instance.database;
-    await db.update(table, row, where: 'id = ?', whereArgs: [id]);
+    await db.update(table, row, where: 'id = ?', whereArgs: <int>[id]);
   }
 
   @override
   Future<void> delete(int id) async {
     final db = await instance.database;
-    await db.delete(table, where: "id = ?", whereArgs: [id]);
+    await db.delete(table, where: 'id = ?', whereArgs: <int>[id]);
   }
 
   @override
@@ -82,6 +85,6 @@ class TodoItemRepositoryImpl implements TodoItemRepository {
       'updatedAt': todoItem.updatedAt.toString(),
     };
     final db = await instance.database;
-    await db.update(table, row, where: 'id = ?', whereArgs: [todoItem.id]);
+    await db.update(table, row, where: 'id = ?', whereArgs: <int>[todoItem.id]);
   }
 }
