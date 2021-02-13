@@ -149,7 +149,7 @@ void main() {
       // 結果確認
       expect(
           await storageRepository.isExistKey(VIEW_COMPLETED_ITEMS_KEY), false);
-      expect(result, VIEW_COMPLETED_ITEMS_KEY_NONE);
+      expect(result, null);
     });
 
     test('正常系:keyがある時', () async {
