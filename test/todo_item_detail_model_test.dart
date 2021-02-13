@@ -5,9 +5,6 @@
  * https://opensource.org/licenses/mit-license.php
  *
  */
-
-import 'dart:io';
-
 import 'package:flutter_test/flutter_test.dart';
 import 'package:todo_app_sample_flutter/domain/todo_item.dart';
 import 'package:todo_app_sample_flutter/presentation/todo_item_detail/todo_item_detail_model.dart';
