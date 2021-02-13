@@ -28,14 +28,14 @@ class TodoListPage extends StatelessWidget {
       )..init(),
       child: Scaffold(
         appBar: AppBar(
-          title: Text("TODOAppSample-Flutter"),
+          title: const Text('TODOAppSample-Flutter'),
           actions: [
             Consumer<TodoListModel>(builder: (context, model, child) {
               return PopupMenuButton(
-                initialValue: "model.viewCompletedItems",
-                onSelected: (String s) {
+                initialValue: 'model.viewCompletedItems',
+                onSelected: (String s)async {
                   model.changeViewCompletedItems(s);
-                  model.getTodoList();
+                 await model.getTodoList();
                 },
                 itemBuilder: (BuildContext context) {
                   return _displayConfig.map((String s) {
@@ -65,7 +65,7 @@ class TodoListPage extends StatelessWidget {
                         title: RichText(
                           text: TextSpan(
                             text: todo.title,
-                            style: TextStyle(
+                            style: const TextStyle(
                               color: Colors.black87,
                             ),
                           ),
@@ -73,12 +73,12 @@ class TodoListPage extends StatelessWidget {
                         onTap: () {
                           pushWithReload(context, model, todoItem: todo);
                         },
-                        onLongPress: () {
-                          showDialog(
+                        onLongPress: () async{
+                          await showDialog<AlertDialog>(
                             context: context,
                             builder: (BuildContext context) {
                               return AlertDialog(
-                                title: Text("${todo.title}を削除しますか？"),
+                                title: Text('${todo.title}を削除しますか？'),
                                 actions: [
                                   FlatButton(
                                     onPressed: () {
@@ -86,13 +86,13 @@ class TodoListPage extends StatelessWidget {
                                       model.getTodoList();
                                       Navigator.of(context).pop();
                                     },
-                                    child: Text("はい"),
+                                    child: const Text('はい'),
                                   ),
                                   FlatButton(
                                     onPressed: () {
                                       Navigator.of(context).pop();
                                     },
-                                    child: Text("いいえ"),
+                                    child: const Text('いいえ'),
                                   ),
                                 ],
                               );
@@ -103,8 +103,8 @@ class TodoListPage extends StatelessWidget {
                     )
                     ?.toList() ??
                 [
-                  ListTile(
-                    title: Text(""),
+                  const ListTile(
+                    title: Text(''),
                   )
                 ],
           );
@@ -115,20 +115,20 @@ class TodoListPage extends StatelessWidget {
             onPressed: () {
               pushWithReload(context, model);
             },
-            child: Icon(Icons.add),
+            child: const Icon(Icons.add),
           );
         }),
       ),
     );
   }
 
-  void pushWithReload(BuildContext context, TodoListModel model,
+  Future<void> pushWithReload(BuildContext context, TodoListModel model,
       {TodoItem todoItem}) async {
-    await Navigator.push(
+    await Navigator.push<MaterialPageRoute>(
       context,
       MaterialPageRoute(
         builder: (context) => (todoItem == null)
-            ? TodoItemDetailPage()
+            ? const TodoItemDetailPage()
             : TodoItemDetailPage(todoItem: todoItem),
         fullscreenDialog: true,
       ),

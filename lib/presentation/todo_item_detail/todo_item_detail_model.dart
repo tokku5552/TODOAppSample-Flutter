@@ -13,15 +13,15 @@ class TodoItemDetailModel extends ChangeNotifier {
   TodoItemDetailModel({
     @required TodoItemRepository todoItemRepository,
   }) : _todoItemRepository = todoItemRepository;
-  TodoItemRepository _todoItemRepository;
+  final TodoItemRepository _todoItemRepository;
 
-  String todoTitle = "";
-  String todoBody = "";
+  String todoTitle = '';
+  String todoBody = '';
   bool isDone = false;
 
   Future<void> add() async {
     if (todoTitle == null || todoTitle.isEmpty) {
-      throw ("タイトルを入力してください。");
+      throw 'タイトルを入力してください。';
     }
     await _todoItemRepository.create(
       todoTitle,
@@ -35,8 +35,8 @@ class TodoItemDetailModel extends ChangeNotifier {
   Future<void> update(int id) async {
     final todoItem = TodoItem(
       id: id,
-      title: (todoTitle.isEmpty) ? todoTitle = "" : todoTitle,
-      body: (todoBody.isEmpty) ? "" : todoBody,
+      title: (todoTitle.isEmpty) ? todoTitle = '' : todoTitle,
+      body: (todoBody.isEmpty) ? '' : todoBody,
       updatedAt: DateTime.now(),
     );
     await _todoItemRepository.update(todoItem);

@@ -78,7 +78,7 @@ void main() {
   });
 
   group("fromMapのテスト", () {
-    final Map<String, dynamic> json = {
+    final json = {
       'id': 0,
       'title': 'title',
       'body': 'body',
