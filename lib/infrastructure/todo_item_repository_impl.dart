@@ -5,6 +5,7 @@
  * https://opensource.org/licenses/mit-license.php
  *
  */
+import 'package:flutter/material.dart';
 import 'package:todo_app_sample_flutter/common/database_provider.dart';
 import 'package:todo_app_sample_flutter/domain/todo_item.dart';
 import 'package:todo_app_sample_flutter/domain/todo_item_repository.dart';
@@ -14,8 +15,12 @@ class TodoItemRepositoryImpl implements TodoItemRepository {
   static DatabaseProvider instance = DatabaseProvider.instance;
 
   @override
-  Future<TodoItem> create(
-      String title, String body, bool isDone, DateTime now) async {
+  Future<TodoItem> create({
+    @required String title,
+    @required String body,
+    @required bool isDone,
+    @required DateTime now,
+  }) async {
     final row = <String, dynamic>{
       'title': title,
       'body': body,
@@ -43,12 +48,15 @@ class TodoItemRepositoryImpl implements TodoItemRepository {
         ? await db.rawQuery('SELECT * FROM $table ORDER BY updatedAt DESC')
         : await db.rawQuery(
             'SELECT * FROM $table WHERE isDone = 0 ORDER BY updatedAt DESC');
-    if (rows.isEmpty) return null;
-    return rows.map((json) => TodoItem.fromMap(json)).toList();
+    if (rows.isEmpty) {
+      return null;
+    } else {
+      return rows.map((json) => TodoItem.fromMap(json)).toList();
+    }
   }
 
   @override
-  Future<TodoItem> find(int id) async {
+  Future<TodoItem> find({@required int id}) async {
     final db = await instance.database;
     final rows =
         await db.rawQuery('SELECT * FROM $table WHERE id = ?', <int>[id]);
@@ -60,7 +68,10 @@ class TodoItemRepositoryImpl implements TodoItemRepository {
   }
 
   @override
-  Future<void> updateIsDoneById(int id, bool isDone) async {
+  Future<void> updateIsDoneById({
+    @required int id,
+    @required bool isDone,
+  }) async {
     print('id=$id,isDone=$isDone');
     final row = {
       'id': id,
@@ -71,13 +82,13 @@ class TodoItemRepositoryImpl implements TodoItemRepository {
   }
 
   @override
-  Future<void> delete(int id) async {
+  Future<void> delete({@required int id}) async {
     final db = await instance.database;
     await db.delete(table, where: 'id = ?', whereArgs: <int>[id]);
   }
 
   @override
-  Future<void> update(TodoItem todoItem) async {
+  Future<void> update({@required TodoItem todoItem}) async {
     final row = {
       'id': todoItem.id,
       'title': todoItem.title,

@@ -15,8 +15,8 @@ import 'package:todo_app_sample_flutter/presentation/todo_list/todo_list_model.d
 
 class TodoListPage extends StatelessWidget {
   final _displayConfig = [
-    VIEW_COMPLETED_ITEMS_TRUE_STRING,
-    VIEW_COMPLETED_ITEMS_FALSE_STRING
+    viewCompletedItemsTrueString,
+    viewCompletedItemsFalseString
   ];
 
   @override
@@ -33,9 +33,9 @@ class TodoListPage extends StatelessWidget {
             Consumer<TodoListModel>(builder: (context, model, child) {
               return PopupMenuButton(
                 initialValue: 'model.viewCompletedItems',
-                onSelected: (String s)async {
+                onSelected: (String s) async {
                   model.changeViewCompletedItems(s);
-                 await model.getTodoList();
+                  await model.getTodoList();
                 },
                 itemBuilder: (BuildContext context) {
                   return _displayConfig.map((String s) {
@@ -59,7 +59,8 @@ class TodoListPage extends StatelessWidget {
                           value: todo.isDone,
                           onChanged: (bool value) {
                             todo.isDone = !todo.isDone;
-                            model.updateIsDone(todo.id, todo.isDone);
+                            model.updateIsDone(
+                                id: todo.id, isDone: todo.isDone);
                           },
                         ),
                         title: RichText(
@@ -73,7 +74,7 @@ class TodoListPage extends StatelessWidget {
                         onTap: () {
                           pushWithReload(context, model, todoItem: todo);
                         },
-                        onLongPress: () async{
+                        onLongPress: () async {
                           await showDialog<AlertDialog>(
                             context: context,
                             builder: (BuildContext context) {
@@ -81,9 +82,8 @@ class TodoListPage extends StatelessWidget {
                                 title: Text('${todo.title}を削除しますか？'),
                                 actions: [
                                   FlatButton(
-                                    onPressed: () {
-                                      model.deleteTodoItem(todo.id);
-                                      model.getTodoList();
+                                    onPressed: () async {
+                                      await model.deleteAndReload(id: todo.id);
                                       Navigator.of(context).pop();
                                     },
                                     child: const Text('はい'),

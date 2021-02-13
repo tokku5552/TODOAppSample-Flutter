@@ -19,16 +19,21 @@ class TodoItemDetailModel extends ChangeNotifier {
   String todoBody = '';
   bool isDone = false;
 
+  void setTodoItem(TodoItem todoItem) {
+    todoTitle = todoItem.title;
+    todoBody = todoItem.body;
+  }
+
   Future<void> add() async {
     if (todoTitle == null || todoTitle.isEmpty) {
-      throw 'タイトルを入力してください。';
+      final Error error = ArgumentError('タイトルを入力してください。');
+      throw error;
     }
     await _todoItemRepository.create(
-      todoTitle,
-      (todoBody.isEmpty) ? "" : todoBody,
-      isDone,
-      DateTime.now(),
-    );
+        title: todoTitle,
+        body: (todoBody.isEmpty) ? '' : todoBody,
+        isDone: isDone,
+        now: DateTime.now());
     notifyListeners();
   }
 
@@ -39,7 +44,7 @@ class TodoItemDetailModel extends ChangeNotifier {
       body: (todoBody.isEmpty) ? '' : todoBody,
       updatedAt: DateTime.now(),
     );
-    await _todoItemRepository.update(todoItem);
+    await _todoItemRepository.update(todoItem: todoItem);
     notifyListeners();
   }
 }

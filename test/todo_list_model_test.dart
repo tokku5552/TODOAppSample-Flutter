@@ -126,14 +126,12 @@ void main() {
       storageRepository.clear();
 
       // メソッド実行
-      await model.changeViewCompletedItems(VIEW_COMPLETED_ITEMS_TRUE_STRING);
+      await model.changeViewCompletedItems(viewCompletedItemsTrueString);
 
       // 結果確認
+      expect(await storageRepository.isExistKey(viewCompletedItemsKey), true);
       expect(
-          await storageRepository.isExistKey(VIEW_COMPLETED_ITEMS_KEY), true);
-      expect(
-          await storageRepository
-              .loadPersistenceStorage(VIEW_COMPLETED_ITEMS_KEY),
+          await storageRepository.loadPersistenceStorage(viewCompletedItemsKey),
           'true');
     });
   });
@@ -147,8 +145,7 @@ void main() {
       final result = await model.loadViewCompletedItems();
 
       // 結果確認
-      expect(
-          await storageRepository.isExistKey(VIEW_COMPLETED_ITEMS_KEY), false);
+      expect(await storageRepository.isExistKey(viewCompletedItemsKey), false);
       expect(result, null);
     });
 
@@ -156,18 +153,16 @@ void main() {
       // 事前準備
       storageRepository.clear();
       storageRepository.savePersistenceStorage(
-          VIEW_COMPLETED_ITEMS_KEY, VIEW_COMPLETED_ITEMS_TRUE_STRING);
+          viewCompletedItemsKey, viewCompletedItemsTrueString);
 
       // メソッド実行
       await model.loadViewCompletedItems();
 
       // 結果確認
+      expect(await storageRepository.isExistKey(viewCompletedItemsKey), true);
       expect(
-          await storageRepository.isExistKey(VIEW_COMPLETED_ITEMS_KEY), true);
-      expect(
-          await storageRepository
-              .loadPersistenceStorage(VIEW_COMPLETED_ITEMS_KEY),
-          VIEW_COMPLETED_ITEMS_TRUE_STRING);
+          await storageRepository.loadPersistenceStorage(viewCompletedItemsKey),
+          viewCompletedItemsTrueString);
     });
   });
 }

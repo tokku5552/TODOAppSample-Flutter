@@ -31,8 +31,7 @@ class TodoItemDetailPage extends StatelessWidget {
           title: Text(isUpdate ? 'タスクの更新' : '新規追加'),
         ),
         body: Consumer<TodoItemDetailModel>(builder: (context, model, child) {
-          model.todoTitle = todoItem?.title;
-          model.todoBody = todoItem?.body;
+          todoItem ?? model.setTodoItem(todoItem);
           return Padding(
             padding: const EdgeInsets.all(16),
             child: Column(
