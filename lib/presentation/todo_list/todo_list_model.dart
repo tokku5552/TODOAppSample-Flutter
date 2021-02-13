@@ -61,7 +61,6 @@ class TodoListModel extends ChangeNotifier {
     } else {
       final result = await _storageRepository
           .loadPersistenceStorage(VIEW_COMPLETED_ITEMS_KEY);
-      print(result);
       return result == 'true';
     }
   }
