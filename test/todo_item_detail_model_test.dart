@@ -15,9 +15,8 @@ import 'package:todo_app_sample_flutter/presentation/todo_item_detail/todo_item_
 import 'infrastructure/todo_item_repository_mem_impl.dart';
 
 void main() {
-  final TodoItemRepositoryMemImpl repository = TodoItemRepositoryMemImpl();
-  final TodoItemDetailModel model =
-      TodoItemDetailModel(todoItemRepository: repository);
+  final repository = TodoItemRepositoryMemImpl();
+  final model = TodoItemDetailModel(todoItemRepository: repository);
   final dummyDate = DateTime.now();
 
   group('add', () {
@@ -31,14 +30,15 @@ void main() {
         createdAt: dummyDate,
         updatedAt: dummyDate,
       );
-      model.todoTitle = data.title;
-      model.todoBody = data.body;
+      model
+        ..todoTitle = data.title
+        ..todoBody = data.body;
 
       // メソッド実行
-      bool isSuccessful = true;
+      var isSuccessful = true;
       try {
         await model.add();
-      } catch (e) {
+      } on Exception {
         isSuccessful = false;
       }
 
@@ -67,16 +67,23 @@ void main() {
         createdAt: dummyDate,
         updatedAt: dummyDate,
       );
+      // repository.create(
+      //     '変更前', '変更前', false, DateTime.now().subtract(Duration(days: 1)));
       repository.create(
-          '変更前', '変更前', false, DateTime.now().subtract(Duration(days: 1)));
-      model.todoTitle = data.title;
-      model.todoBody = data.body;
+        title: '変更前',
+        body: '変更前',
+        isDone: false,
+        now: DateTime.now().subtract(const Duration(days: 1)),
+      );
+      model
+        ..todoTitle = data.title
+        ..todoBody = data.body;
 
       // メソッド実行
-      bool isSuccessful = true;
+      var isSuccessful = true;
       try {
         await model.update(repository.currentId);
-      } catch (e) {
+      } on Exception {
         isSuccessful = false;
       }
 

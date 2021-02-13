@@ -5,6 +5,7 @@
  * https://opensource.org/licenses/mit-license.php
  *
  */
+import 'package:flutter/material.dart';
 import 'package:todo_app_sample_flutter/domain/todo_item.dart';
 import 'package:todo_app_sample_flutter/domain/todo_item_repository.dart';
 
@@ -27,8 +28,12 @@ class TodoItemRepositoryMemImpl implements TodoItemRepository {
   }
 
   @override
-  Future<TodoItem> create(
-      String title, String body, bool isDone, DateTime now) {
+  Future<TodoItem> create({
+    @required String title,
+    @required String body,
+    @required bool isDone,
+    @required DateTime now,
+  }) {
     final result = TodoItem(
       id: _currentId,
       title: title,
@@ -42,19 +47,17 @@ class TodoItemRepositoryMemImpl implements TodoItemRepository {
   }
 
   @override
-  Future<void> delete(int id) {
+  Future<void> delete({@required int id}) {
     _data.remove(id);
     return null;
   }
 
   @override
   Future<List<TodoItem>> findAll({bool viewCompletedItems = true}) {
-    List<TodoItem> result = [];
-    final List<TodoItem> todoItems = List<TodoItem>.unmodifiable(_data.values);
+    var result = <TodoItem>[];
+    final todoItems = List<TodoItem>.unmodifiable(_data.values);
     if (!viewCompletedItems) {
-      todoItems.forEach((element) {
-        result.add(element);
-      });
+      todoItems.forEach(result.add);
     } else {
       result = todoItems;
     }
@@ -62,24 +65,23 @@ class TodoItemRepositoryMemImpl implements TodoItemRepository {
   }
 
   @override
-  Future<TodoItem> find(int id) {
+  Future<TodoItem> find({@required int id}) {
     return Future.value(_data[id]);
   }
 
   @override
-  Future<void> updateIsDoneById(int id, bool isDone) {
-    final todoItem = _data[id];
-    todoItem.isDone = isDone;
+  Future<void> updateIsDoneById({@required int id, @required bool isDone}) {
+    final todoItem = _data[id]..isDone = isDone;
     _data[id] = todoItem;
     return null;
   }
 
   @override
-  Future<void> update(TodoItem todoItem) {
-    TodoItem updateData = _data[todoItem.id];
-    updateData.title = todoItem.title;
-    updateData.body = todoItem.body;
-    updateData.updatedAt = todoItem.updatedAt;
+  Future<void> update({@required TodoItem todoItem}) {
+    final updateData = _data[todoItem.id]
+      ..title = todoItem.title
+      ..body = todoItem.body
+      ..updatedAt = todoItem.updatedAt;
     _data[todoItem.id] = updateData;
     return null;
   }
