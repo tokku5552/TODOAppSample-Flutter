@@ -9,8 +9,8 @@ import 'package:flutter_test/flutter_test.dart';
 import 'package:todo_app_sample_flutter/domain/todo_item.dart';
 
 void main() {
-  group("TodoItemのゲッターのテスト", () {
-    final TodoItem todoItem = TodoItem(
+  group('TodoItemのゲッターのテスト', () {
+    final todoItem = TodoItem(
       id: 0,
       title: 'title',
       body: 'body',
@@ -24,11 +24,11 @@ void main() {
     });
 
     test('titleのテスト', () async {
-      expect(todoItem.getTitle, "title");
+      expect(todoItem.getTitle, 'title');
     });
 
     test('bodyのテスト', () async {
-      expect(todoItem.getBody, "body");
+      expect(todoItem.getBody, 'body');
     });
 
     test('createdAtのテスト', () async {
@@ -44,8 +44,8 @@ void main() {
     });
   });
 
-  group("toMapのテスト", () {
-    final TodoItem todoItem = TodoItem(
+  group('toMapのテスト', () {
+    final todoItem = TodoItem(
       id: 0,
       title: 'title',
       body: 'body',
@@ -77,7 +77,7 @@ void main() {
     });
   });
 
-  group("fromMapのテスト", () {
+  group('fromMapのテスト', () {
     final json = {
       'id': 0,
       'title': 'title',
@@ -107,8 +107,8 @@ void main() {
     });
   });
 
-  group("toStringのテスト", () {
-    final TodoItem todoItem = TodoItem(
+  group('toStringのテスト', () {
+    final todoItem = TodoItem(
       id: 0,
       title: 'title',
       body: 'body',

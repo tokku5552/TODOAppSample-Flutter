@@ -1,3 +1,10 @@
+#
+#   Copyright (c) 2021 tokku5552
+#
+#   This software is released under the MIT License.
+#   https://opensource.org/licenses/mit-license.php
+#
+#
 name: Flutter_Analyzer
 
 on:
@@ -5,18 +12,19 @@ on:
     types: [opened, synchronize]
   push:
     branches:
-      - master
+      - main
+      - develop
 
 jobs:
   flutter_analyze:
     runs-on: ubuntu-latest
-    timeout-minutes: 1
+    timeout-minutes: 10
     steps:
       - uses: actions/checkout@v2
         with:
           fetch-depth: 1
       - uses: subosito/flutter-action@v1
         with:
-          channel: 'beta'
+          channel: 'stable'
       - run: flutter pub get
       - run: flutter analyze
