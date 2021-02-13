@@ -34,7 +34,7 @@ class TodoListPage extends StatelessWidget {
               return PopupMenuButton(
                 initialValue: 'model.viewCompletedItems',
                 onSelected: (String s) async {
-                  model.changeViewCompletedItems(s);
+                  await model.changeViewCompletedItems(s);
                   await model.getTodoList();
                 },
                 itemBuilder: (BuildContext context) {
@@ -133,6 +133,6 @@ class TodoListPage extends StatelessWidget {
         fullscreenDialog: true,
       ),
     );
-    model.getTodoList();
+    await model.getTodoList();
   }
 }

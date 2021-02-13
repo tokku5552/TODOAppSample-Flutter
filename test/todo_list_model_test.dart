@@ -52,13 +52,12 @@ void main() {
       todoItemRepository.clear();
 
       for (final todoItem in data) {
-        todoItemRepository
-          ..incrementId()
-          ..create(
-              title: todoItem.title,
-              body: todoItem.body,
-              isDone: todoItem.isDone,
-              now: now);
+        todoItemRepository.incrementId();
+        await todoItemRepository.create(
+            title: todoItem.title,
+            body: todoItem.body,
+            isDone: todoItem.isDone,
+            now: now);
       }
 
       model.viewCompletedItems = true;
@@ -89,13 +88,12 @@ void main() {
       // 事前準備
       todoItemRepository.clear();
       for (final todoItem in data) {
-        todoItemRepository
-          ..incrementId()
-          ..create(
-              title: todoItem.title,
-              body: todoItem.body,
-              isDone: todoItem.isDone,
-              now: now);
+        todoItemRepository.incrementId();
+        await todoItemRepository.create(
+            title: todoItem.title,
+            body: todoItem.body,
+            isDone: todoItem.isDone,
+            now: now);
       }
 
       // メソッド実行
@@ -112,13 +110,12 @@ void main() {
       // 事前準備
       todoItemRepository.clear();
       for (final todoItem in data) {
-        todoItemRepository
-          ..incrementId()
-          ..create(
-              title: todoItem.title,
-              body: todoItem.body,
-              isDone: todoItem.isDone,
-              now: now);
+        todoItemRepository.incrementId();
+        await todoItemRepository.create(
+            title: todoItem.title,
+            body: todoItem.body,
+            isDone: todoItem.isDone,
+            now: now);
       }
 
       // メソッド実行
@@ -165,10 +162,9 @@ void main() {
 
     test('正常系:keyがある時', () async {
       // 事前準備
-      storageRepository
-        ..clear()
-        ..savePersistenceStorage(
-            viewCompletedItemsKey, viewCompletedItemsTrueString);
+      storageRepository.clear();
+      await storageRepository.savePersistenceStorage(
+          viewCompletedItemsKey, viewCompletedItemsTrueString);
 
       // メソッド実行
       await model.loadViewCompletedItems();
