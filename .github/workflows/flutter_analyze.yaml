@@ -5,7 +5,8 @@ on:
     types: [opened, synchronize]
   push:
     branches:
-      - master
+      - main
+      - develop
 
 jobs:
   flutter_analyze:
