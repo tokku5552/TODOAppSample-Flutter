@@ -15,8 +15,10 @@ This project uses Git-Flow
 
 ## Testing
 To test on MacOS, execute the following command
-> flutter test --coverage
-> genhtml coverage/lcov.info -o coverage/html
+```
+flutter test --coverage
+genhtml coverage/lcov.info -o coverage/html
+```
 
 ## Libraries
  - provider: ^4.3.2+2
