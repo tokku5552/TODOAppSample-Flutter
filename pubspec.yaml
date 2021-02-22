@@ -1,0 +1,35 @@
+#
+#   Copyright (c) 2021 tokku5552
+#
+#   This software is released under the MIT License.
+#   https://opensource.org/licenses/mit-license.php
+#
+#
+name: todo_app_sample_flutter
+description: A new Flutter application.
+
+# The following line prevents the package from being accidentally published to
+# pub.dev using `pub publish`. This is preferred for private packages.
+publish_to: 'none' # Remove this line if you wish to publish to pub.dev
+
+version: 1.0.0+1
+
+environment:
+  sdk: ">=2.7.0 <3.0.0"
+
+dependencies:
+  flutter:
+    sdk: flutter
+  cupertino_icons: ^1.0.0
+  provider: ^4.3.2+2
+  sqflite: ^1.3.2+1
+  shared_preferences: ^0.5.12+4
+
+dev_dependencies:
+  flutter_test:
+    sdk: flutter
+  pedantic: ^1.9.2
+
+flutter:
+  uses-material-design: true
+
