@@ -9,7 +9,9 @@ name: Flutter_Test
 
 on:
   pull_request:
-    types: [opened, synchronize]
+    branches:
+      - main
+      - develop
   push:
     branches:
       - main
