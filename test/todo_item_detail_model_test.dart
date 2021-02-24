@@ -15,7 +15,11 @@ void main() {
   final repository = TodoItemRepositoryMemImpl();
   final model = TodoItemDetailModel(todoItemRepository: repository);
   final dummyDate = DateTime.now();
-
+  group('setTodoItem', () {
+    test('正常系', () async {
+      // implements
+    });
+  });
   group('add', () {
     test('正常系', () async {
       // 事前準備
@@ -50,6 +54,11 @@ void main() {
       expect(item.createdAt, isNotNull);
       expect(item.updatedAt, isNotNull);
       expect(item.createdAt, item.updatedAt);
+    });
+
+    test('異常系', () {
+      // implement
+      final newModel = TodoItemDetailModel(todoItemRepository: repository);
     });
   });
 
