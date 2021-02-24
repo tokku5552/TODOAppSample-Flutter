@@ -73,8 +73,6 @@ void main() {
         createdAt: dummyDate,
         updatedAt: dummyDate,
       );
-      // repository.create(
-      //     '変更前', '変更前', false, DateTime.now().subtract(Duration(days: 1)));
       await repository.create(
         title: '変更前',
         body: '変更前',
