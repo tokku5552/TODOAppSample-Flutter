@@ -17,7 +17,18 @@ void main() {
   final dummyDate = DateTime.now();
   group('setTodoItem', () {
     test('正常系', () async {
-      // implements
+      // 事前準備
+      repository.clear();
+      final data = TodoItem(
+        id: 0,
+        title: 'テストタイトル',
+        body: 'テストボディ',
+        createdAt: dummyDate,
+        updatedAt: dummyDate,
+      );
+      model.setTodoItem(data);
+      expect(model.todoTitle, data.title);
+      expect(model.todoBody, data.body);
     });
   });
   group('add', () {
