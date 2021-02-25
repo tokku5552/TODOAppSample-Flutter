@@ -67,9 +67,16 @@ void main() {
       expect(item.createdAt, item.updatedAt);
     });
 
-    test('異常系', () {
+    test('異常系', () async {
       // implement
       final newModel = TodoItemDetailModel(todoItemRepository: repository);
+      var successfully = false;
+      try {
+        await newModel.add();
+      } catch (e) {
+        successfully = true;
+      }
+      expect(successfully, true);
     });
   });
 
