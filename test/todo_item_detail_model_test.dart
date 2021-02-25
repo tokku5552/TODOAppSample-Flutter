@@ -15,7 +15,22 @@ void main() {
   final repository = TodoItemRepositoryMemImpl();
   final model = TodoItemDetailModel(todoItemRepository: repository);
   final dummyDate = DateTime.now();
-
+  group('setTodoItem', () {
+    test('正常系', () async {
+      // 事前準備
+      repository.clear();
+      final data = TodoItem(
+        id: 0,
+        title: 'テストタイトル',
+        body: 'テストボディ',
+        createdAt: dummyDate,
+        updatedAt: dummyDate,
+      );
+      model.setTodoItem(data);
+      expect(model.todoTitle, data.title);
+      expect(model.todoBody, data.body);
+    });
+  });
   group('add', () {
     test('正常系', () async {
       // 事前準備
@@ -51,6 +66,18 @@ void main() {
       expect(item.updatedAt, isNotNull);
       expect(item.createdAt, item.updatedAt);
     });
+
+    test('異常系', () async {
+      // implement
+      final newModel = TodoItemDetailModel(todoItemRepository: repository);
+      var successfully = false;
+      try {
+        await newModel.add();
+      } catch (e) {
+        successfully = true;
+      }
+      expect(successfully, true);
+    });
   });
 
   group('update', () {
@@ -64,8 +91,6 @@ void main() {
         createdAt: dummyDate,
         updatedAt: dummyDate,
       );
-      // repository.create(
-      //     '変更前', '変更前', false, DateTime.now().subtract(Duration(days: 1)));
       await repository.create(
         title: '変更前',
         body: '変更前',
